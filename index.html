@@ -10,186 +10,223 @@ body{font-family:Arial,sans-serif;background:#f6f9fb;color:#1f2933;margin:0;line
 .hero{background:#0f2d44;color:white;padding:24px;border-radius:12px}
 .card{background:white;border-left:6px solid #2f80a8;padding:20px;margin-top:18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .green{border-left-color:#3ca65c;background:#eefaf1}
+.yellow{border-left-color:#f2b705;background:#fff8e6}
+.problem{background:white;border:1px solid #d6e6ef;border-radius:10px;padding:18px;margin-top:18px}
 button{background:#0f2d44;color:white;border:0;border-radius:8px;padding:12px 18px;font-size:16px;cursor:pointer;margin-top:10px}
 button:hover{background:#174766}
 input{padding:10px;border:1px solid #b8c7d1;border-radius:6px;font-size:16px;max-width:300px;width:90%;margin:4px}
-.problem{background:white;border:1px solid #d6e6ef;border-radius:10px;padding:18px;margin-top:18px}
-.workspace{width:100%;min-height:140px;border:2px dashed #b8c7d1;border-radius:8px;background:#f6f9fb;margin-top:12px;padding:12px;font-family:Arial,sans-serif;font-size:16px;resize:vertical;box-sizing:border-box}
+.workspace{width:100%;min-height:150px;border:2px dashed #b8c7d1;border-radius:8px;background:#f6f9fb;margin-top:12px;padding:12px;font-family:Arial,sans-serif;font-size:16px;resize:vertical;box-sizing:border-box}
 .code{font-size:28px;font-weight:bold;color:#0f2d44;letter-spacing:2px}
 .hidden{display:none}
-@media print{button,.no-print{display:none}.card,.problem{box-shadow:none}}
+.promptbox{background:#fff8e6;border-left:6px solid #f2b705;padding:12px;border-radius:8px;margin-top:12px}
+svg{max-width:100%;height:auto}
 </style>
 </head>
 
 <body>
 <div class="wrap">
-  <div class="hero">
-    <h1>Geometry | Unit 3 Assessment Generator</h1>
-    <p>Similarity & Proportional Reasoning</p>
-  </div>
 
-  <div id="start" class="card">
-    <h2>Generate Your Assessment</h2>
-    <p>Enter your name, then generate your unique Unit 3 assessment. Say your assessment code at the beginning of your screen recording.</p>
-    <input id="firstName" placeholder="First name">
-    <input id="lastName" placeholder="Last name">
-    <br>
-    <button onclick="generateAssessment()">Generate Assessment</button>
-    <p id="error" style="color:#b42318;font-weight:bold;"></p>
-  </div>
+<div class="hero">
+<h1>Geometry | Unit 3 Assessment Generator</h1>
+<p>Similarity &amp; Proportional Reasoning</p>
+</div>
 
-  <div id="assessment" class="hidden">
-    <div class="card green">
-      <h2>Assessment Information</h2>
-      <p><strong>Student:</strong> <span id="studentName"></span></p>
-      <p><strong>Assessment Code:</strong></p>
-      <p class="code" id="assessmentCode"></p>
-      <p><strong>Directions:</strong> Complete all 6 problems. Record your screen for 3–5 minutes while showing your work and explaining your reasoning.</p>
-      <button onclick="window.print()" class="no-print">Print or Save as PDF</button>
-    </div>
+<div id="start" class="card">
+<h2>Generate Your Assessment</h2>
+<p>Enter your name to generate your unique Unit 3 assessment. You will explain your work in a 3–5 minute screen recording.</p>
+<p><strong>Important:</strong> Say your assessment code at the beginning of your recording.</p>
+<input id="firstName" placeholder="First name">
+<input id="lastName" placeholder="Last name">
+<br>
+<button onclick="generateAssessment()">Generate Assessment</button>
+<p id="error" style="color:#b42318;font-weight:bold;"></p>
+</div>
 
-    <div id="problems"></div>
-  </div>
+<div id="assessment" class="hidden">
+<div class="card green">
+<h2>Assessment Information</h2>
+<p><strong>Student:</strong> <span id="studentName"></span></p>
+<p><strong>Assessment Code:</strong></p>
+<p class="code" id="assessmentCode"></p>
+<p><strong>Directions:</strong> Complete all 6 problems. Show your work in the text boxes and explain your reasoning in your screen recording.</p>
+</div>
+
+<div id="problems"></div>
+</div>
+
 </div>
 
 <script>
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
-function code(){
-  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let out="U3-";
-  for(let i=0;i<6;i++) out+=chars[Math.floor(Math.random()*chars.length)];
-  return out;
+
+function makeCode(){
+const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+let out="U3-";
+for(let i=0;i<6;i++){out+=chars[Math.floor(Math.random()*chars.length)]}
+return out;
 }
 
 function generateAssessment(){
-  const first=document.getElementById("firstName").value.trim();
-  const last=document.getElementById("lastName").value.trim();
-  if(!first || !last){
-    document.getElementById("error").textContent="Please enter first and last name.";
-    return;
-  }
+const first=document.getElementById("firstName").value.trim();
+const last=document.getElementById("lastName").value.trim();
 
-  document.getElementById("studentName").textContent=first+" "+last;
-  document.getElementById("assessmentCode").textContent=code();
-  document.getElementById("start").classList.add("hidden");
-  document.getElementById("assessment").classList.remove("hidden");
-
-  const items=[
-    dilationProblem(),
-    similarityProblem(),
-    statementProblem(),
-    indirectProblem(),
-    proportionalityProblem(),
-    proofProblem()
-  ];
-
-  document.getElementById("problems").innerHTML=items.map((p,i)=>`
-    <div class="problem">
-      <h2>Problem ${i+1}</h2>
-      ${p.svg}
-      <p>${p.prompt}</p>
-      <textarea class="workspace" placeholder="Show your work, calculations, and explain your reasoning here..."></textarea>
-    </div>
-  `).join("");
+if(!first || !last){
+document.getElementById("error").textContent="Please enter your first and last name.";
+return;
 }
 
-function dilationProblem(){
-  const x=rand([2,3,4,5,6]);
-  const y=rand([2,3,4,5]);
-  const k=rand([2,3]);
-  return {
-    svg:`<svg width="100%" height="220" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="220" fill="#f6f9fb"/>
-      <line x1="60" y1="180" x2="740" y2="180" stroke="#0f2d44" stroke-width="2"/>
-      <line x1="100" y1="200" x2="100" y2="30" stroke="#0f2d44" stroke-width="2"/>
-      <circle cx="${100+x*40}" cy="${180-y*30}" r="6" fill="#2f80a8"/>
-      <text x="${110+x*40}" y="${175-y*30}" font-family="Arial" font-size="18">A(${x}, ${y})</text>
-      <text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Dilation from the Origin</text>
-    </svg>`,
-    prompt:`Point A(${x}, ${y}) is dilated from the origin by a scale factor of ${k}. Find A′ and explain how the coordinates changed.`
-  };
+document.getElementById("studentName").textContent=first+" "+last;
+document.getElementById("assessmentCode").textContent=makeCode();
+document.getElementById("start").classList.add("hidden");
+document.getElementById("assessment").classList.remove("hidden");
+
+const items=[
+problem1(),
+problem2(),
+problem3(),
+problem4(),
+problem5(),
+problem6()
+];
+
+document.getElementById("problems").innerHTML=items.map((p,i)=>`
+<div class="problem">
+<h2>Problem ${i+1}</h2>
+${p.svg}
+<p>${p.prompt}</p>
+<div class="promptbox"><strong>Explain your reasoning:</strong><br>${p.reasoning}</div>
+<textarea class="workspace" placeholder="Show your calculations, work, and explanation here..."></textarea>
+</div>
+`).join("");
 }
 
-function similarityProblem(){
-  const a=rand([3,4,5]);
-  const b=a+2;
-  const c=a+4;
-  const k=rand([2,3]);
-  return {
-    svg:`<svg width="100%" height="230" viewBox="0 0 800 230" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="230" fill="#f6f9fb"/>
-      <polygon points="120,180 260,180 150,70" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-      <polygon points="500,190 720,190 545,35" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-      <text x="190" y="205" text-anchor="middle" font-family="Arial" font-size="16">${a}, ${b}, ${c}</text>
-      <text x="610" y="215" text-anchor="middle" font-family="Arial" font-size="16">${a*k}, ${b*k}, ${c*k}</text>
-    </svg>`,
-    prompt:`Two triangles have side lengths ${a}, ${b}, ${c} and ${a*k}, ${b*k}, ${c*k}. Are they similar? Explain using a similarity rule.`
-  };
+function problem1(){
+const k=rand([2,3]);
+const pts=[
+[1,2],[3,1],[2,4]
+];
+return{
+svg:`<svg width="100%" height="260" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="260" fill="#f6f9fb"/>
+<line x1="80" y1="220" x2="740" y2="220" stroke="#0f2d44" stroke-width="2"/>
+<line x1="120" y1="235" x2="120" y2="30" stroke="#0f2d44" stroke-width="2"/>
+<polygon points="${120+pts[0][0]*45},${220-pts[0][1]*35} ${120+pts[1][0]*45},${220-pts[1][1]*35} ${120+pts[2][0]*45},${220-pts[2][1]*35}" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Dilation from the Origin</text>
+<text x="170" y="240" font-family="Arial" font-size="15">A(1,2), B(3,1), C(2,4)</text>
+<text x="400" y="240" font-family="Arial" font-size="15">Scale factor: ${k}</text>
+</svg>`,
+prompt:`Triangle ABC has vertices A(1,2), B(3,1), and C(2,4). Dilate the triangle from the origin by a scale factor of ${k}. Find A′, B′, and C′. Then explain why the image is similar to the original triangle.`,
+reasoning:`Describe how each coordinate changes, identify the scale factor, and explain why dilation preserves angle measures while changing side lengths proportionally.`
+}
 }
 
-function statementProblem(){
-  return {
-    svg:`<svg width="100%" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="250" fill="#f6f9fb"/>
-      <polygon points="100,200 280,200 165,60" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-      <polygon points="500,205 720,205 575,40" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-      <text x="165" y="50" font-size="20" font-weight="bold">A</text><text x="80" y="225" font-size="20" font-weight="bold">B</text><text x="285" y="225" font-size="20" font-weight="bold">C</text>
-      <text x="575" y="30" font-size="20" font-weight="bold">D</text><text x="480" y="230" font-size="20" font-weight="bold">E</text><text x="725" y="230" font-size="20" font-weight="bold">F</text>
-      <text x="400" y="120" text-anchor="middle" font-family="Arial" font-size="20" fill="#0f2d44">A ↔ D, B ↔ E, C ↔ F</text>
-    </svg>`,
-    prompt:`Write the correct similarity statement and explain why order matters.`
-  };
+function problem2(){
+const base=rand([[4,6,8],[5,7,9],[6,8,10]]);
+const k=rand([2,3]);
+const second=base.map(n=>n*k);
+return{
+svg:`<svg width="100%" height="240" viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="240" fill="#f6f9fb"/>
+<polygon points="120,190 300,190 180,70" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<polygon points="520,200 740,200 600,45" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<text x="210" y="220" text-anchor="middle" font-family="Arial" font-size="16">${base.join(", ")}</text>
+<text x="630" y="225" text-anchor="middle" font-family="Arial" font-size="16">${second.join(", ")}</text>
+<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Similarity by Side Ratios</text>
+</svg>`,
+prompt:`Triangle 1 has side lengths ${base.join(", ")}. Triangle 2 has side lengths ${second.join(", ")}. Determine whether the triangles are similar. Justify your answer using a triangle similarity rule.`,
+reasoning:`Compare all three pairs of corresponding side lengths and name the correct similarity rule.`
+}
 }
 
-function indirectProblem(){
-  const h=rand([4,5,6]);
-  const s=rand([6,8,9]);
-  const scale=rand([3,4]);
-  return {
-    svg:`<svg width="100%" height="230" viewBox="0 0 800 230" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="230" fill="#f6f9fb"/>
-      <line x1="70" y1="190" x2="740" y2="190" stroke="#0f2d44" stroke-width="3"/>
-      <line x1="150" y1="190" x2="150" y2="120" stroke="#2f80a8" stroke-width="7"/>
-      <line x1="150" y1="120" x2="260" y2="190" stroke="#2f80a8" stroke-width="4"/>
-      <text x="120" y="160" font-size="16">${h} ft</text><text x="180" y="215" font-size="16">${s} ft</text>
-      <line x1="480" y1="190" x2="480" y2="60" stroke="#3ca65c" stroke-width="10"/>
-      <line x1="480" y1="60" x2="700" y2="190" stroke="#3ca65c" stroke-width="4"/>
-      <text x="455" y="130" font-size="16">x ft</text><text x="570" y="215" font-size="16">${s*scale} ft</text>
-    </svg>`,
-    prompt:`A ${h}-foot person casts a ${s}-foot shadow. At the same time, a tree casts a ${s*scale}-foot shadow. Find the height of the tree and explain your proportion.`
-  };
+function problem3(){
+return{
+svg:`<svg width="100%" height="280" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="280" fill="#f6f9fb"/>
+<polygon points="100,220 300,220 170,65" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<polygon points="500,225 740,225 585,45" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<text x="170" y="55" font-size="20" font-weight="bold">A</text>
+<text x="80" y="245" font-size="20" font-weight="bold">B</text>
+<text x="305" y="245" font-size="20" font-weight="bold">C</text>
+<text x="585" y="35" font-size="20" font-weight="bold">D</text>
+<text x="480" y="250" font-size="20" font-weight="bold">E</text>
+<text x="745" y="250" font-size="20" font-weight="bold">F</text>
+<rect x="295" y="90" width="210" height="110" rx="8" fill="white" stroke="#2f80a8" stroke-width="2"/>
+<text x="400" y="120" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f2d44">Correspondence</text>
+<text x="330" y="150" font-family="Arial" font-size="17">A ↔ D</text>
+<text x="330" y="175" font-family="Arial" font-size="17">B ↔ E</text>
+<text x="330" y="200" font-family="Arial" font-size="17">C ↔ F</text>
+</svg>`,
+prompt:`Write the correct similarity statement. Then list three pairs of corresponding sides and explain why the order of the letters matters.`,
+reasoning:`Use the vertex correspondence to write the similarity statement and match corresponding sides.`
+}
 }
 
-function proportionalityProblem(){
-  const ad=rand([4,5,6]);
-  const db=ad*2;
-  const ae=rand([6,8,10]);
-  return {
-    svg:`<svg width="100%" height="260" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="260" fill="#f6f9fb"/>
-      <polygon points="130,220 670,220 400,40" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
-      <line x1="300" y1="140" x2="500" y2="140" stroke="#3ca65c" stroke-width="5"/>
-      <text x="400" y="30" font-size="20" font-weight="bold">A</text><text x="110" y="240" font-size="20" font-weight="bold">B</text><text x="680" y="240" font-size="20" font-weight="bold">C</text>
-      <text x="280" y="135" font-size="20" font-weight="bold">D</text><text x="510" y="135" font-size="20" font-weight="bold">E</text>
-      <text x="330" y="90" font-size="16">AD=${ad}</text><text x="220" y="185" font-size="16">DB=${db}</text>
-      <text x="455" y="90" font-size="16">AE=${ae}</text><text x="555" y="185" font-size="16">EC=x</text>
-    </svg>`,
-    prompt:`In △ABC, DE ∥ BC. If AD = ${ad}, DB = ${db}, AE = ${ae}, and EC = x, find x using the Triangle Proportionality Theorem.`
-  };
+function problem4(){
+const h=rand([4,5,6]);
+const s=rand([6,8,9]);
+const scale=rand([3,4,5]);
+return{
+svg:`<svg width="100%" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="250" fill="#f6f9fb"/>
+<line x1="70" y1="200" x2="740" y2="200" stroke="#0f2d44" stroke-width="3"/>
+<line x1="150" y1="200" x2="150" y2="130" stroke="#2f80a8" stroke-width="8"/>
+<line x1="150" y1="130" x2="270" y2="200" stroke="#2f80a8" stroke-width="4"/>
+<text x="115" y="165" font-size="16">${h} ft</text>
+<text x="190" y="225" font-size="16">${s} ft shadow</text>
+<line x1="500" y1="200" x2="500" y2="65" stroke="#3ca65c" stroke-width="10"/>
+<line x1="500" y1="65" x2="710" y2="200" stroke="#3ca65c" stroke-width="4"/>
+<text x="470" y="135" font-size="16">x ft</text>
+<text x="570" y="225" font-size="16">${s*scale} ft shadow</text>
+<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Indirect Measurement</text>
+</svg>`,
+prompt:`A ${h}-foot person casts a ${s}-foot shadow. At the same time, a tree casts a ${s*scale}-foot shadow. Find the height of the tree.`,
+reasoning:`Set up a proportion using height and shadow length. Explain why the triangles are similar and why the proportion is valid.`
+}
 }
 
-function proofProblem(){
-  return {
-    svg:`<svg width="100%" height="260" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
-      <rect width="800" height="260" fill="#fff8e6"/>
-      <polygon points="180,50 180,210 620,210" fill="#fff" stroke="#0f2d44" stroke-width="4"/>
-      <line x1="180" y1="210" x2="340" y2="125" stroke="#3ca65c" stroke-width="5"/>
-      <path d="M180 180 L210 180 L210 210" fill="none" stroke="#d9534f" stroke-width="4"/>
-      <text x="160" y="45" font-size="22" font-weight="bold">A</text><text x="160" y="235" font-size="22" font-weight="bold">B</text><text x="630" y="235" font-size="22" font-weight="bold">C</text><text x="350" y="125" font-size="22" font-weight="bold">D</text>
-      <text x="420" y="55" font-size="20" fill="#0f2d44">BD ⟂ AC</text>
-    </svg>`,
-    prompt:`In right triangle ABC, ∠B is the right angle and altitude BD is drawn to hypotenuse AC. Write the correct similarity statement and explain why the smaller triangles are similar to the original triangle.`
-  };
+function problem5(){
+const ad=rand([4,5,6,7]);
+const db=ad+rand([3,4,5]);
+const ae=rand([6,8,10,12]);
+return{
+svg:`<svg width="100%" height="280" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="280" fill="#f6f9fb"/>
+<polygon points="120,235 680,235 400,45" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
+<line x1="300" y1="150" x2="505" y2="150" stroke="#3ca65c" stroke-width="5"/>
+<text x="400" y="35" font-size="20" font-weight="bold">A</text>
+<text x="100" y="260" font-size="20" font-weight="bold">B</text>
+<text x="690" y="260" font-size="20" font-weight="bold">C</text>
+<text x="280" y="145" font-size="20" font-weight="bold">D</text>
+<text x="515" y="145" font-size="20" font-weight="bold">E</text>
+<text x="330" y="95" font-size="16">AD=${ad}</text>
+<text x="210" y="195" font-size="16">DB=${db}</text>
+<text x="455" y="95" font-size="16">AE=${ae}</text>
+<text x="555" y="195" font-size="16">EC=x</text>
+<text x="400" y="265" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f2d44">DE ∥ BC</text>
+</svg>`,
+prompt:`In △ABC, DE ∥ BC. If AD = ${ad}, DB = ${db}, AE = ${ae}, and EC = x, find x.`,
+reasoning:`Use the Triangle Proportionality Theorem. Write the correct proportion, solve for x, and explain why the theorem applies.`
+}
+}
+
+function problem6(){
+return{
+svg:`<svg width="100%" height="330" viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Right triangle ABC with right angle at B and altitude BD to hypotenuse AC">
+<rect width="800" height="330" fill="#f6f9fb"/>
+<polygon points="140,50 140,260 720,260" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
+<line x1="140" y1="260" x2="330" y2="150" stroke="#2f8f2f" stroke-width="5"/>
+<path d="M140 220 L180 220 L180 260" fill="none" stroke="#d92323" stroke-width="4"/>
+<path d="M310 164 L333 187 L355 155" fill="none" stroke="#d92323" stroke-width="4"/>
+<text x="105" y="55" font-family="Arial" font-size="30" font-weight="bold">A</text>
+<text x="105" y="285" font-family="Arial" font-size="30" font-weight="bold">B</text>
+<text x="735" y="285" font-family="Arial" font-size="30" font-weight="bold">C</text>
+<text x="342" y="145" font-family="Arial" font-size="30" font-weight="bold">D</text>
+<text x="520" y="70" font-family="Arial" font-size="20" fill="#0f2d44" font-weight="bold">BD ⟂ AC</text>
+<text x="520" y="105" font-family="Arial" font-size="18">D is on hypotenuse AC</text>
+</svg>`,
+prompt:`In right triangle ABC, ∠B is the right angle and altitude BD is drawn to hypotenuse AC. Write the correct similarity statement for the three triangles.`,
+reasoning:`Explain why the altitude creates two smaller triangles similar to the original triangle. Match the right angles first, then use AA Similarity to justify the order of the similarity statement.`
+}
 }
 </script>
 </body>
