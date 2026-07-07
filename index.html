@@ -6,19 +6,20 @@
 <title>Geometry Unit 3 Assessment Generator</title>
 <style>
 body{font-family:Arial,sans-serif;background:#f6f9fb;color:#1f2933;margin:0;line-height:1.6}
-.wrap{max-width:1000px;margin:auto;padding:24px}
+.wrap{max-width:1050px;margin:auto;padding:24px}
 .hero{background:#0f2d44;color:white;padding:24px;border-radius:12px}
 .card{background:white;border-left:6px solid #2f80a8;padding:20px;margin-top:18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .green{border-left-color:#3ca65c;background:#eefaf1}
 .yellow{border-left-color:#f2b705;background:#fff8e6}
-.problem{background:white;border:1px solid #d6e6ef;border-radius:10px;padding:18px;margin-top:18px}
+.purple{border-left-color:#9c64a6;background:#f3e5f5}
 button{background:#0f2d44;color:white;border:0;border-radius:8px;padding:12px 18px;font-size:16px;cursor:pointer;margin-top:10px}
 button:hover{background:#174766}
 input{padding:10px;border:1px solid #b8c7d1;border-radius:6px;font-size:16px;max-width:300px;width:90%;margin:4px}
-.workspace{width:100%;min-height:150px;border:2px dashed #b8c7d1;border-radius:8px;background:#f6f9fb;margin-top:12px;padding:12px;font-family:Arial,sans-serif;font-size:16px;resize:vertical;box-sizing:border-box}
+.investigation{background:white;border:1px solid #d6e6ef;border-radius:12px;padding:20px;margin-top:22px}
+.part{background:#f6f9fb;border-left:5px solid #d6e6ef;padding:12px;border-radius:8px;margin-top:12px}
+.workspace{width:100%;min-height:130px;border:2px dashed #b8c7d1;border-radius:8px;background:white;margin-top:10px;padding:12px;font-family:Arial,sans-serif;font-size:16px;resize:vertical;box-sizing:border-box}
 .code{font-size:28px;font-weight:bold;color:#0f2d44;letter-spacing:2px}
 .hidden{display:none}
-.promptbox{background:#fff8e6;border-left:6px solid #f2b705;padding:12px;border-radius:8px;margin-top:12px}
 svg{max-width:100%;height:auto}
 </style>
 </head>
@@ -33,7 +34,7 @@ svg{max-width:100%;height:auto}
 
 <div id="start" class="card">
 <h2>Generate Your Assessment</h2>
-<p>Enter your name to generate your unique Unit 3 assessment. You will explain your work in a 3–5 minute screen recording.</p>
+<p>Enter your name to generate your unique Unit 3 assessment. You will complete <strong>3 investigations</strong> and explain your reasoning in a 3–5 minute screen recording.</p>
 <p><strong>Important:</strong> Say your assessment code at the beginning of your recording.</p>
 <input id="firstName" placeholder="First name">
 <input id="lastName" placeholder="Last name">
@@ -48,10 +49,10 @@ svg{max-width:100%;height:auto}
 <p><strong>Student:</strong> <span id="studentName"></span></p>
 <p><strong>Assessment Code:</strong></p>
 <p class="code" id="assessmentCode"></p>
-<p><strong>Directions:</strong> Complete all 6 problems. Show your work in the text boxes and explain your reasoning in your screen recording.</p>
+<p><strong>Directions:</strong> Work through each investigation. Use the text boxes to organize your work, then explain your reasoning clearly in your screen recording.</p>
 </div>
 
-<div id="problems"></div>
+<div id="investigations"></div>
 </div>
 
 </div>
@@ -80,153 +81,170 @@ document.getElementById("assessmentCode").textContent=makeCode();
 document.getElementById("start").classList.add("hidden");
 document.getElementById("assessment").classList.remove("hidden");
 
-const items=[
-problem1(),
-problem2(),
-problem3(),
-problem4(),
-problem5(),
-problem6()
+const tasks=[
+investigation1(),
+investigation2(),
+investigation3()
 ];
 
-document.getElementById("problems").innerHTML=items.map((p,i)=>`
-<div class="problem">
-<h2>Problem ${i+1}</h2>
-${p.svg}
-<p>${p.prompt}</p>
-<div class="promptbox"><strong>Explain your reasoning:</strong><br>${p.reasoning}</div>
-<textarea class="workspace" placeholder="Show your calculations, work, and explanation here..."></textarea>
+document.getElementById("investigations").innerHTML=tasks.join("");
+}
+
+function investigation1(){
+const k=rand([2,3]);
+return `
+<div class="investigation">
+<h2>Investigation 1: Similarity & Transformations</h2>
+<p>This investigation connects dilations, scale factor, coordinates, and similarity transformations.</p>
+
+<svg width="100%" height="320" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coordinate grid showing triangle ABC and space for a dilation image">
+<rect width="900" height="320" fill="#f6f9fb"/>
+<line x1="80" y1="270" x2="820" y2="270" stroke="#0f2d44" stroke-width="2"/>
+<line x1="120" y1="290" x2="120" y2="40" stroke="#0f2d44" stroke-width="2"/>
+<g stroke="#d6e6ef" stroke-width="1">
+${[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(i=>`<line x1="${120+i*45}" y1="40" x2="${120+i*45}" y2="290"/>`).join("")}
+${[1,2,3,4,5,6].map(i=>`<line x1="80" y1="${270-i*35}" x2="820" y2="${270-i*35}"/>`).join("")}
+</g>
+<polygon points="165,200 255,235 210,130" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<text x="155" y="195" font-family="Arial" font-size="18" font-weight="bold">A(1,2)</text>
+<text x="260" y="242" font-family="Arial" font-size="18" font-weight="bold">B(3,1)</text>
+<text x="215" y="125" font-family="Arial" font-size="18" font-weight="bold">C(2,4)</text>
+<text x="470" y="35" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#0f2d44">Dilate △ABC from the origin</text>
+<text x="470" y="65" text-anchor="middle" font-family="Arial" font-size="18" fill="#1f2933">Scale factor: ${k}</text>
+</svg>
+
+<div class="part">
+<p><strong>A.</strong> Find the coordinates of A′, B′, and C′ after a dilation from the origin by a scale factor of <strong>${k}</strong>.</p>
+<textarea class="workspace" placeholder="Show coordinate work here..."></textarea>
 </div>
-`).join("");
+
+<div class="part">
+<p><strong>B.</strong> Explain how you know △ABC and △A′B′C′ are similar.</p>
+<textarea class="workspace" placeholder="Use the words dilation, scale factor, corresponding sides, and angle measures..."></textarea>
+</div>
+
+<div class="part">
+<p><strong>C.</strong> If the perimeter of △ABC is 18 units, what is the perimeter of △A′B′C′? Explain your reasoning.</p>
+<textarea class="workspace" placeholder="Explain how perimeter changes under dilation..."></textarea>
+</div>
+</div>`;
 }
 
-function problem1(){
-const k=rand([2,3]);
-const pts=[
-[1,2],[3,1],[2,4]
-];
-return{
-svg:`<svg width="100%" height="260" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="260" fill="#f6f9fb"/>
-<line x1="80" y1="220" x2="740" y2="220" stroke="#0f2d44" stroke-width="2"/>
-<line x1="120" y1="235" x2="120" y2="30" stroke="#0f2d44" stroke-width="2"/>
-<polygon points="${120+pts[0][0]*45},${220-pts[0][1]*35} ${120+pts[1][0]*45},${220-pts[1][1]*35} ${120+pts[2][0]*45},${220-pts[2][1]*35}" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Dilation from the Origin</text>
-<text x="170" y="240" font-family="Arial" font-size="15">A(1,2), B(3,1), C(2,4)</text>
-<text x="400" y="240" font-family="Arial" font-size="15">Scale factor: ${k}</text>
-</svg>`,
-prompt:`Triangle ABC has vertices A(1,2), B(3,1), and C(2,4). Dilate the triangle from the origin by a scale factor of ${k}. Find A′, B′, and C′. Then explain why the image is similar to the original triangle.`,
-reasoning:`Describe how each coordinate changes, identify the scale factor, and explain why dilation preserves angle measures while changing side lengths proportionally.`
-}
-}
-
-function problem2(){
-const base=rand([[4,6,8],[5,7,9],[6,8,10]]);
-const k=rand([2,3]);
-const second=base.map(n=>n*k);
-return{
-svg:`<svg width="100%" height="240" viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="240" fill="#f6f9fb"/>
-<polygon points="120,190 300,190 180,70" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<polygon points="520,200 740,200 600,45" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<text x="210" y="220" text-anchor="middle" font-family="Arial" font-size="16">${base.join(", ")}</text>
-<text x="630" y="225" text-anchor="middle" font-family="Arial" font-size="16">${second.join(", ")}</text>
-<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Similarity by Side Ratios</text>
-</svg>`,
-prompt:`Triangle 1 has side lengths ${base.join(", ")}. Triangle 2 has side lengths ${second.join(", ")}. Determine whether the triangles are similar. Justify your answer using a triangle similarity rule.`,
-reasoning:`Compare all three pairs of corresponding side lengths and name the correct similarity rule.`
-}
-}
-
-function problem3(){
-return{
-svg:`<svg width="100%" height="280" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="280" fill="#f6f9fb"/>
-<polygon points="100,220 300,220 170,65" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<polygon points="500,225 740,225 585,45" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<text x="170" y="55" font-size="20" font-weight="bold">A</text>
-<text x="80" y="245" font-size="20" font-weight="bold">B</text>
-<text x="305" y="245" font-size="20" font-weight="bold">C</text>
-<text x="585" y="35" font-size="20" font-weight="bold">D</text>
-<text x="480" y="250" font-size="20" font-weight="bold">E</text>
-<text x="745" y="250" font-size="20" font-weight="bold">F</text>
-<rect x="295" y="90" width="210" height="110" rx="8" fill="white" stroke="#2f80a8" stroke-width="2"/>
-<text x="400" y="120" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f2d44">Correspondence</text>
-<text x="330" y="150" font-family="Arial" font-size="17">A ↔ D</text>
-<text x="330" y="175" font-family="Arial" font-size="17">B ↔ E</text>
-<text x="330" y="200" font-family="Arial" font-size="17">C ↔ F</text>
-</svg>`,
-prompt:`Write the correct similarity statement. Then list three pairs of corresponding sides and explain why the order of the letters matters.`,
-reasoning:`Use the vertex correspondence to write the similarity statement and match corresponding sides.`
-}
-}
-
-function problem4(){
-const h=rand([4,5,6]);
-const s=rand([6,8,9]);
+function investigation2(){
+const person=rand([4,5,6]);
+const shadow=rand([6,8,9]);
 const scale=rand([3,4,5]);
-return{
-svg:`<svg width="100%" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="250" fill="#f6f9fb"/>
-<line x1="70" y1="200" x2="740" y2="200" stroke="#0f2d44" stroke-width="3"/>
-<line x1="150" y1="200" x2="150" y2="130" stroke="#2f80a8" stroke-width="8"/>
-<line x1="150" y1="130" x2="270" y2="200" stroke="#2f80a8" stroke-width="4"/>
-<text x="115" y="165" font-size="16">${h} ft</text>
-<text x="190" y="225" font-size="16">${s} ft shadow</text>
-<line x1="500" y1="200" x2="500" y2="65" stroke="#3ca65c" stroke-width="10"/>
-<line x1="500" y1="65" x2="710" y2="200" stroke="#3ca65c" stroke-width="4"/>
-<text x="470" y="135" font-size="16">x ft</text>
-<text x="570" y="225" font-size="16">${s*scale} ft shadow</text>
-<text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Indirect Measurement</text>
-</svg>`,
-prompt:`A ${h}-foot person casts a ${s}-foot shadow. At the same time, a tree casts a ${s*scale}-foot shadow. Find the height of the tree.`,
-reasoning:`Set up a proportion using height and shadow length. Explain why the triangles are similar and why the proportion is valid.`
-}
+const perim=rand([16,18,24]);
+const area=rand([12,15,20]);
+const k=rand([2,3]);
+return `
+<div class="investigation">
+<h2>Investigation 2: Similarity Applications</h2>
+<p>This investigation connects similarity statements, indirect measurement, perimeter, and area.</p>
+
+<svg width="100%" height="360" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Similarity application diagrams with triangles, shadows, and scale factor reminders">
+<rect width="900" height="360" fill="#f6f9fb"/>
+
+<polygon points="90,170 250,170 140,55" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<polygon points="400,175 620,175 470,30" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
+<text x="140" y="48" font-size="18" font-weight="bold">A</text>
+<text x="70" y="195" font-size="18" font-weight="bold">B</text>
+<text x="255" y="195" font-size="18" font-weight="bold">C</text>
+<text x="470" y="24" font-size="18" font-weight="bold">D</text>
+<text x="380" y="200" font-size="18" font-weight="bold">E</text>
+<text x="625" y="200" font-size="18" font-weight="bold">F</text>
+<text x="330" y="100" text-anchor="middle" font-size="18" font-family="Arial" fill="#0f2d44">A ↔ D, B ↔ E, C ↔ F</text>
+
+<line x1="90" y1="300" x2="800" y2="300" stroke="#0f2d44" stroke-width="3"/>
+<line x1="150" y1="300" x2="150" y2="240" stroke="#2f80a8" stroke-width="7"/>
+<line x1="150" y1="240" x2="260" y2="300" stroke="#2f80a8" stroke-width="4"/>
+<text x="120" y="275" font-size="16">${person} ft</text>
+<text x="180" y="325" font-size="16">${shadow} ft</text>
+<line x1="560" y1="300" x2="560" y2="200" stroke="#3ca65c" stroke-width="10"/>
+<line x1="560" y1="200" x2="760" y2="300" stroke="#3ca65c" stroke-width="4"/>
+<text x="530" y="255" font-size="16">x ft</text>
+<text x="630" y="325" font-size="16">${shadow*scale} ft</text>
+</svg>
+
+<div class="part">
+<p><strong>A.</strong> Write the correct similarity statement for the two triangles shown in the top diagram. Then list all three pairs of corresponding sides.</p>
+<textarea class="workspace" placeholder="Write similarity statement and corresponding sides..."></textarea>
+</div>
+
+<div class="part">
+<p><strong>B.</strong> A ${person}-foot person casts a ${shadow}-foot shadow. At the same time, a tree casts a ${shadow*scale}-foot shadow. Find the tree height and explain why similar triangles apply.</p>
+<textarea class="workspace" placeholder="Set up and solve a proportion..."></textarea>
+</div>
+
+<div class="part">
+<p><strong>C.</strong> A figure has perimeter ${perim} units and area ${area} square units. A similar figure is created with side-length scale factor ${k}. Find the new perimeter and new area. Explain why the area rule is different from the perimeter rule.</p>
+<textarea class="workspace" placeholder="Use k for perimeter and k² for area..."></textarea>
+</div>
+</div>`;
 }
 
-function problem5(){
-const ad=rand([4,5,6,7]);
-const db=ad+rand([3,4,5]);
-const ae=rand([6,8,10,12]);
-return{
-svg:`<svg width="100%" height="280" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="280" fill="#f6f9fb"/>
-<polygon points="120,235 680,235 400,45" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
-<line x1="300" y1="150" x2="505" y2="150" stroke="#3ca65c" stroke-width="5"/>
-<text x="400" y="35" font-size="20" font-weight="bold">A</text>
-<text x="100" y="260" font-size="20" font-weight="bold">B</text>
-<text x="690" y="260" font-size="20" font-weight="bold">C</text>
-<text x="280" y="145" font-size="20" font-weight="bold">D</text>
-<text x="515" y="145" font-size="20" font-weight="bold">E</text>
-<text x="330" y="95" font-size="16">AD=${ad}</text>
-<text x="210" y="195" font-size="16">DB=${db}</text>
-<text x="455" y="95" font-size="16">AE=${ae}</text>
-<text x="555" y="195" font-size="16">EC=x</text>
-<text x="400" y="265" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f2d44">DE ∥ BC</text>
-</svg>`,
-prompt:`In △ABC, DE ∥ BC. If AD = ${ad}, DB = ${db}, AE = ${ae}, and EC = x, find x.`,
-reasoning:`Use the Triangle Proportionality Theorem. Write the correct proportion, solve for x, and explain why the theorem applies.`
-}
-}
+function investigation3(){
+const ad=rand([4,5,6]);
+const db=rand([8,10,12]);
+const ae=rand([6,9,12]);
+return `
+<div class="investigation">
+<h2>Investigation 3: Proving with Similarity</h2>
+<p>This investigation focuses on proof reasoning, triangle proportionality, and right triangle altitude similarity.</p>
 
-function problem6(){
-return{
-svg:`<svg width="100%" height="330" viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Right triangle ABC with right angle at B and altitude BD to hypotenuse AC">
-<rect width="800" height="330" fill="#f6f9fb"/>
-<polygon points="140,50 140,260 720,260" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
-<line x1="140" y1="260" x2="330" y2="150" stroke="#2f8f2f" stroke-width="5"/>
-<path d="M140 220 L180 220 L180 260" fill="none" stroke="#d92323" stroke-width="4"/>
-<path d="M310 164 L333 187 L355 155" fill="none" stroke="#d92323" stroke-width="4"/>
-<text x="105" y="55" font-family="Arial" font-size="30" font-weight="bold">A</text>
-<text x="105" y="285" font-family="Arial" font-size="30" font-weight="bold">B</text>
-<text x="735" y="285" font-family="Arial" font-size="30" font-weight="bold">C</text>
-<text x="342" y="145" font-family="Arial" font-size="30" font-weight="bold">D</text>
-<text x="520" y="70" font-family="Arial" font-size="20" fill="#0f2d44" font-weight="bold">BD ⟂ AC</text>
-<text x="520" y="105" font-family="Arial" font-size="18">D is on hypotenuse AC</text>
-</svg>`,
-prompt:`In right triangle ABC, ∠B is the right angle and altitude BD is drawn to hypotenuse AC. Write the correct similarity statement for the three triangles.`,
-reasoning:`Explain why the altitude creates two smaller triangles similar to the original triangle. Match the right angles first, then use AA Similarity to justify the order of the similarity statement.`
-}
+<svg width="100%" height="430" viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle proportionality and right triangle altitude diagrams">
+
+<rect width="900" height="430" fill="#f6f9fb"/>
+
+<text x="225" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Triangle Proportionality</text>
+<polygon points="80,245 390,245 230,65" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
+<line x1="155" y1="155" x2="305" y2="155" stroke="#3ca65c" stroke-width="5"/>
+<text x="230" y="55" font-size="20" font-weight="bold">A</text>
+<text x="60" y="270" font-size="20" font-weight="bold">B</text>
+<text x="400" y="270" font-size="20" font-weight="bold">C</text>
+<text x="135" y="155" font-size="20" font-weight="bold">D</text>
+<text x="315" y="155" font-size="20" font-weight="bold">E</text>
+<text x="175" y="105" font-size="16">AD=${ad}</text>
+<text x="105" y="205" font-size="16">DB=${db}</text>
+<text x="285" y="105" font-size="16">AE=${ae}</text>
+<text x="335" y="205" font-size="16">EC=x</text>
+<text x="235" y="285" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f2d44">DE ∥ BC</text>
+
+<text x="670" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Right Triangle Altitude</text>
+<polygon points="520,70 520,270 835,270" fill="#fff8e6" stroke="#0f2d44" stroke-width="4"/>
+<line x1="520" y1="270" x2="635" y2="155" stroke="#2f8f2f" stroke-width="5"/>
+<path d="M520 235 L555 235 L555 270" fill="none" stroke="#d92323" stroke-width="4"/>
+<path d="M615 170 L638 193 L660 165" fill="none" stroke="#d92323" stroke-width="4"/>
+<text x="490" y="70" font-size="28" font-weight="bold">A</text>
+<text x="490" y="300" font-size="28" font-weight="bold">B</text>
+<text x="845" y="300" font-size="28" font-weight="bold">C</text>
+<text x="645" y="150" font-size="28" font-weight="bold">D</text>
+<text x="690" y="105" font-size="18" fill="#0f2d44" font-weight="bold">BD ⟂ AC</text>
+
+<rect x="245" y="335" width="410" height="55" rx="8" fill="white" stroke="#0f2d44" stroke-width="3"/>
+<text x="450" y="370" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#0f2d44">Similarity helps us prove relationships.</text>
+</svg>
+
+<div class="part">
+<p><strong>A.</strong> In the triangle proportionality diagram, find x. Write the proportion you used and explain why the Triangle Proportionality Theorem applies.</p>
+<textarea class="workspace" placeholder="Write the proportion, solve for x, and justify the theorem..."></textarea>
+</div>
+
+<div class="part">
+<p><strong>B.</strong> For the right triangle altitude diagram, write the correct similarity statement for the three triangles.</p>
+<textarea class="workspace" placeholder="Hint: Match the right angles first."></textarea>
+</div>
+
+<div class="part">
+<p><strong>C.</strong> Complete this proof explanation: Because BD is perpendicular to AC, the smaller triangles are right triangles. Each smaller triangle also shares an acute angle with △ABC. Therefore, the triangles are similar by ________. Explain why this proves the similarity statement.</p>
+<textarea class="workspace" placeholder="Use AA Similarity and corresponding angles in your explanation..."></textarea>
+</div>
+
+<div class="part">
+<p><strong>D.</strong> Explain why it is important to prove triangles are similar before using corresponding sides to write a proportion.</p>
+<textarea class="workspace" placeholder="Explain the connection between similarity and proportional sides..."></textarea>
+</div>
+</div>`;
 }
 </script>
 </body>
