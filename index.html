@@ -1,251 +1,2342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geometry Unit 3 Assessment Generator</title>
-<style>
-body{font-family:Arial,sans-serif;background:#f6f9fb;color:#1f2933;margin:0;line-height:1.6}
-.wrap{max-width:1050px;margin:auto;padding:24px}
-.hero{background:#0f2d44;color:white;padding:24px;border-radius:12px}
-.card{background:white;border-left:6px solid #2f80a8;padding:20px;margin-top:18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.green{border-left-color:#3ca65c;background:#eefaf1}
-.yellow{border-left-color:#f2b705;background:#fff8e6}
-.purple{border-left-color:#9c64a6;background:#f3e5f5}
-button{background:#0f2d44;color:white;border:0;border-radius:8px;padding:12px 18px;font-size:16px;cursor:pointer;margin-top:10px}
-button:hover{background:#174766}
-input{padding:10px;border:1px solid #b8c7d1;border-radius:6px;font-size:16px;max-width:300px;width:90%;margin:4px}
-.investigation{background:white;border:1px solid #d6e6ef;border-radius:12px;padding:20px;margin-top:22px}
-.part{background:#f6f9fb;border-left:5px solid #d6e6ef;padding:12px;border-radius:8px;margin-top:12px}
-.workspace{width:100%;min-height:130px;border:2px dashed #b8c7d1;border-radius:8px;background:white;margin-top:10px;padding:12px;font-family:Arial,sans-serif;font-size:16px;resize:vertical;box-sizing:border-box}
-.code{font-size:28px;font-weight:bold;color:#0f2d44;letter-spacing:2px}
-.hidden{display:none}
-svg{max-width:100%;height:auto}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Geometry Unit 3 Assessment</title>
+
+  <style>
+    :root {
+      --navy: #0f2d44;
+      --blue: #2f80a8;
+      --light-blue: #f0f7fb;
+      --green: #3ca65c;
+      --light-green: #eefaf1;
+      --yellow: #f2b705;
+      --light-yellow: #fff8e6;
+      --purple: #8f5aa5;
+      --light-purple: #f3e5f5;
+      --gray: #f6f9fb;
+      --border: #d6e6ef;
+      --text: #1f2933;
+      --red: #b42318;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #edf2f7;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button:focus,
+    input:focus,
+    textarea:focus,
+    select:focus,
+    a:focus {
+      outline: 4px solid rgba(242, 183, 5, 0.45);
+      outline-offset: 2px;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .hero {
+      padding: 26px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(15, 45, 68, 0.2);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .hero p {
+      margin: 7px 0 0;
+      font-size: 18px;
+    }
+
+    .card {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 5px 18px rgba(15, 45, 68, 0.08);
+    }
+
+    .blue-card {
+      border-left: 6px solid var(--blue);
+      background: var(--light-blue);
+    }
+
+    .green-card {
+      border-left: 6px solid var(--green);
+      background: var(--light-green);
+    }
+
+    .yellow-card {
+      border-left: 6px solid var(--yellow);
+      background: var(--light-yellow);
+    }
+
+    .purple-card {
+      border-left: 6px solid var(--purple);
+      background: var(--light-purple);
+    }
+
+    h2,
+    h3 {
+      color: var(--navy);
+    }
+
+    h2 {
+      margin-top: 0;
+      padding-bottom: 7px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--navy);
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button:hover:not(:disabled) {
+      filter: brightness(1.09);
+    }
+
+    .button.secondary {
+      background: var(--blue);
+    }
+
+    .button.warning {
+      background: #8a5a00;
+    }
+
+    .button:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    label {
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    .text-input,
+    .answer-input,
+    .reasoning-input {
+      width: 100%;
+      margin-top: 7px;
+      padding: 11px;
+      border: 1px solid #aebfca;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .reasoning-input {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .error-message {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .assessment-code {
+      display: inline-block;
+      padding: 9px 13px;
+      border: 2px solid var(--green);
+      border-radius: 8px;
+      background: var(--light-green);
+      color: var(--navy);
+      font-family: "Courier New", monospace;
+      font-size: 19px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .progress-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .progress-track {
+      flex: 1;
+      min-width: 230px;
+      height: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #ffffff;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .progress-label {
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(90px, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .step {
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--gray);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .step.active {
+      border-color: var(--blue);
+      background: var(--light-blue);
+    }
+
+    .step.complete {
+      border-color: var(--green);
+      background: var(--light-green);
+      color: #236b35;
+    }
+
+    .assessment-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .problem-heading {
+      margin-bottom: 5px;
+      color: var(--navy);
+      font-size: 25px;
+    }
+
+    .week-label {
+      margin: 0 0 15px;
+      color: var(--blue);
+      font-weight: bold;
+    }
+
+    .directions {
+      padding: 14px;
+      border-left: 5px solid var(--yellow);
+      border-radius: 8px;
+      background: var(--light-yellow);
+    }
+
+    .diagram {
+      overflow-x: auto;
+      margin: 16px 0;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .diagram svg {
+      width: 100%;
+      max-width: 760px;
+      height: auto;
+    }
+
+    .not-to-scale {
+      margin: 6px 0 0;
+      color: #536471;
+      font-size: 14px;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .answer-panel {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--gray);
+    }
+
+    .answer-panel h3 {
+      margin-top: 0;
+    }
+
+    .whiteboard-card {
+      position: sticky;
+      top: 12px;
+    }
+
+    .whiteboard-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .tool-button {
+      padding: 8px 10px;
+      border: 1px solid #91a6b3;
+      border-radius: 7px;
+      background: #ffffff;
+      color: var(--navy);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tool-button.active {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #ffffff;
+    }
+
+    .color-button {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px #7a8d99;
+      cursor: pointer;
+    }
+
+    .color-button.active {
+      box-shadow: 0 0 0 3px var(--yellow);
+    }
+
+    .whiteboard-wrap {
+      width: 100%;
+      height: 480px;
+      overflow: hidden;
+      border: 2px solid #91a6b3;
+      border-radius: 9px;
+      background:
+        linear-gradient(#e8eef2 1px, transparent 1px),
+        linear-gradient(90deg, #e8eef2 1px, transparent 1px),
+        #ffffff;
+      background-size: 24px 24px;
+      touch-action: none;
+    }
+
+    #whiteboard {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .calculator-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    .confirmation {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid var(--yellow);
+      border-radius: 9px;
+      background: var(--light-yellow);
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      padding: 11px;
+      border: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .summary-table th {
+      background: var(--navy);
+      color: #ffffff;
+    }
+
+    .summary-table tr:nth-child(even) {
+      background: var(--gray);
+    }
+
+    .completion-banner {
+      padding: 25px;
+      border: 7px double var(--navy);
+      border-radius: 12px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .completion-banner h2 {
+      border: 0;
+      font-size: 30px;
+    }
+
+    .completion-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 12px;
+      max-width: 780px;
+      margin: 20px auto;
+      text-align: left;
+    }
+
+    .completion-item {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--gray);
+    }
+
+    @media (max-width: 900px) {
+      .assessment-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .whiteboard-card {
+        position: static;
+      }
+
+      .whiteboard-wrap {
+        height: 390px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        padding: 10px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .name-grid,
+      .completion-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .whiteboard-wrap {
+        height: 340px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+<div class="page">
 
-<div class="hero">
-<h1>Geometry | Unit 3 Assessment Generator</h1>
-<p>Similarity &amp; Proportional Reasoning</p>
-</div>
+  <header class="hero">
+    <h1>Geometry | Unit 3 Assessment</h1>
+    <p>Similarity &amp; Proportional Reasoning</p>
+  </header>
 
-<div id="start" class="card">
-<h2>Generate Your Assessment</h2>
-<p>Enter your name to generate your unique Unit 3 assessment. You will complete <strong>3 investigations</strong> and explain your reasoning in a 3–5 minute screen recording.</p>
-<p><strong>Important:</strong> Say your assessment code at the beginning of your recording.</p>
-<input id="firstName" placeholder="First name">
-<input id="lastName" placeholder="Last name">
-<br>
-<button onclick="generateAssessment()">Generate Assessment</button>
-<p id="error" style="color:#b42318;font-weight:bold;"></p>
-</div>
+  <section class="card blue-card" id="login-section">
+    <h2>Assessment Check-In</h2>
 
-<div id="assessment" class="hidden">
-<div class="card green">
-<h2>Assessment Information</h2>
-<p><strong>Student:</strong> <span id="studentName"></span></p>
-<p><strong>Assessment Code:</strong></p>
-<p class="code" id="assessmentCode"></p>
-<p><strong>Directions:</strong> Work through each investigation. Use the text boxes to organize your work, then explain your reasoning clearly in your screen recording.</p>
-</div>
+    <p>
+      This assessment contains six randomized problems. You will receive
+      two problems from each week of Unit 3.
+    </p>
 
-<div id="investigations"></div>
-</div>
+    <p>
+      You will complete one problem at a time. After advancing, you cannot
+      return to a previous problem.
+    </p>
 
+    <div class="card yellow-card">
+      <h3 style="margin-top: 0;">Before You Begin</h3>
+
+      <p>☐ Close unrelated tabs and applications.</p>
+      <p>☐ Open your screen-recording tool.</p>
+      <p>☐ Make sure your microphone is working.</p>
+      <p>☐ Prepare to show your work and explain your reasoning.</p>
+      <p style="margin-bottom: 0;">
+        Do not begin Problem 1 until your screen recording has started.
+      </p>
+    </div>
+
+    <div class="name-grid">
+      <div>
+        <label for="first-name">First name</label>
+
+        <input
+          class="text-input"
+          id="first-name"
+          type="text"
+          maxlength="40"
+          autocomplete="given-name"
+        >
+      </div>
+
+      <div>
+        <label for="last-name">Last name</label>
+
+        <input
+          class="text-input"
+          id="last-name"
+          type="text"
+          maxlength="40"
+          autocomplete="family-name"
+        >
+      </div>
+    </div>
+
+    <div class="error-message" id="login-error" role="alert"></div>
+
+    <button class="button" id="generate-button" type="button">
+      Generate My Assessment
+    </button>
+  </section>
+
+  <section class="card green-card hidden" id="code-section">
+    <h2>Your Assessment Is Ready</h2>
+
+    <p>
+      Start your screen recording now. At the beginning of your recording,
+      clearly say your name and assessment code.
+    </p>
+
+    <p class="center">
+      <span class="assessment-code" id="assessment-code"></span>
+    </p>
+
+    <p>
+      Keep this assessment tab visible throughout your recording. Use the
+      built-in whiteboard to show calculations, diagrams, proportions, and
+      proof notes.
+    </p>
+
+    <div class="button-row">
+      <button class="button" id="begin-button" type="button">
+        My Recording Has Started — Begin Problem 1
+      </button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="assessment-section">
+    <div class="progress-area">
+      <div
+        class="progress-track"
+        role="progressbar"
+        aria-label="Assessment progress"
+        aria-valuemin="0"
+        aria-valuemax="6"
+        aria-valuenow="1"
+        id="progress-track"
+      >
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <div class="progress-label" id="progress-label">
+        Problem 1 of 6
+      </div>
+    </div>
+
+    <div class="steps" id="steps">
+      <div class="step" id="step-0">1</div>
+      <div class="step" id="step-1">2</div>
+      <div class="step" id="step-2">3</div>
+      <div class="step" id="step-3">4</div>
+      <div class="step" id="step-4">5</div>
+      <div class="step" id="step-5">6</div>
+    </div>
+
+    <div class="assessment-layout">
+      <main>
+        <h2 class="problem-heading" id="problem-title"></h2>
+        <p class="week-label" id="problem-week"></p>
+
+        <div class="directions" id="problem-prompt"></div>
+
+        <div class="diagram" id="diagram-container"></div>
+
+        <p class="not-to-scale">
+          Use the labels, values, and markings. Do not estimate from the drawing.
+        </p>
+
+        <div class="answer-panel">
+          <h3>Submit Your Response</h3>
+
+          <label for="final-answer">
+            Final answer
+          </label>
+
+          <input
+            class="answer-input"
+            id="final-answer"
+            type="text"
+            maxlength="250"
+            placeholder="Enter your final answer, statement, or conclusion."
+          >
+
+          <label for="reasoning">
+            Brief mathematical reasoning
+          </label>
+
+          <textarea
+            class="reasoning-input"
+            id="reasoning"
+            maxlength="1200"
+            placeholder="Explain the steps, theorem, proportion, or relationship you used."
+          ></textarea>
+
+          <div
+            class="error-message"
+            id="response-error"
+            role="alert"
+          ></div>
+
+          <div class="confirmation">
+            <strong>Before advancing:</strong>
+
+            <p>☐ My recording is still running.</p>
+            <p>☐ My work is visible on the whiteboard.</p>
+            <p>☐ I stated my final answer.</p>
+            <p style="margin-bottom: 0;">
+              ☐ I explained why my method is valid.
+            </p>
+          </div>
+
+          <div class="button-row">
+            <button class="button" id="next-button" type="button">
+              Submit Response and Continue
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <aside class="card whiteboard-card">
+        <h2>On-Screen Whiteboard</h2>
+
+        <div class="whiteboard-toolbar">
+          <button class="tool-button active" id="pen-tool" type="button">
+            Pen
+          </button>
+
+          <button class="tool-button" id="eraser-tool" type="button">
+            Eraser
+          </button>
+
+          <button class="tool-button" id="undo-tool" type="button">
+            Undo
+          </button>
+
+          <button class="tool-button" id="clear-tool" type="button">
+            Clear
+          </button>
+        </div>
+
+        <div class="whiteboard-toolbar" aria-label="Pen colors">
+          <button
+            class="color-button active"
+            type="button"
+            data-color="#0f2d44"
+            aria-label="Dark navy pen"
+            style="background: #0f2d44;"
+          ></button>
+
+          <button
+            class="color-button"
+            type="button"
+            data-color="#b42318"
+            aria-label="Red pen"
+            style="background: #b42318;"
+          ></button>
+
+          <button
+            class="color-button"
+            type="button"
+            data-color="#2f80a8"
+            aria-label="Blue pen"
+            style="background: #2f80a8;"
+          ></button>
+
+          <button
+            class="color-button"
+            type="button"
+            data-color="#236b35"
+            aria-label="Green pen"
+            style="background: #236b35;"
+          ></button>
+        </div>
+
+        <label for="line-width">Line thickness</label>
+
+        <select id="line-width">
+          <option value="2">Thin</option>
+          <option value="4" selected>Medium</option>
+          <option value="7">Thick</option>
+        </select>
+
+        <div class="whiteboard-wrap" id="whiteboard-wrap">
+          <canvas id="whiteboard"></canvas>
+        </div>
+
+        <a
+          class="calculator-link"
+          href="https://www.desmos.com/scientific"
+          target="_blank"
+          rel="noopener"
+        >
+          Open Desmos Scientific Calculator
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="card green-card hidden" id="completion-section">
+    <div class="completion-banner">
+      <p style="margin: 0; color: #2f80a8; font-weight: bold;">
+        GEOMETRY | UNIT 3
+      </p>
+
+      <h2>Assessment Complete</h2>
+
+      <p>
+        All six responses have been submitted.
+      </p>
+
+      <div class="completion-grid">
+        <div class="completion-item">
+          <strong>Student</strong><br>
+          <span id="completion-name"></span>
+        </div>
+
+        <div class="completion-item">
+          <strong>Assessment Code</strong><br>
+          <span id="completion-code"></span>
+        </div>
+
+        <div class="completion-item">
+          <strong>Completion Date and Time</strong><br>
+          <span id="completion-date"></span>
+        </div>
+
+        <div class="completion-item">
+          <strong>Problems Submitted</strong><br>
+          6 of 6
+        </div>
+      </div>
+
+      <p>
+        Keep recording while you show this completion page. Then stop your
+        recording and submit the video in Canvas.
+      </p>
+    </div>
+
+    <h2 style="margin-top: 24px;">Submitted Response Summary</h2>
+
+    <p>
+      This summary confirms the answers entered during the assessment.
+      It does not show whether an answer is correct.
+    </p>
+
+    <div style="overflow-x: auto;">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Topic</th>
+            <th>Submitted Answer</th>
+          </tr>
+        </thead>
+
+        <tbody id="summary-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card yellow-card">
+      <h3 style="margin-top: 0;">Final Recording Check</h3>
+
+      <p>☐ My recording includes my name and assessment code.</p>
+      <p>☐ My recording shows all six problems.</p>
+      <p>☐ My recording shows my mathematical work.</p>
+      <p>☐ My recording includes my explanations.</p>
+      <p>☐ My recording shows this completion page.</p>
+      <p style="margin-bottom: 0;">
+        ☐ I will submit the video—not a screenshot—in Canvas.
+      </p>
+    </div>
+  </section>
 </div>
 
 <script>
-function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+"use strict";
 
-function makeCode(){
-const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-let out="U3-";
-for(let i=0;i<6;i++){out+=chars[Math.floor(Math.random()*chars.length)]}
-return out;
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+let student = {
+  first: "",
+  last: "",
+  fullName: ""
+};
+
+let assessmentCode = "";
+let problems = [];
+let currentProblemIndex = 0;
+let responses = [];
+
+const loginSection = document.getElementById("login-section");
+const codeSection = document.getElementById("code-section");
+const assessmentSection = document.getElementById("assessment-section");
+const completionSection = document.getElementById("completion-section");
+
+const firstNameInput = document.getElementById("first-name");
+const lastNameInput = document.getElementById("last-name");
+const loginError = document.getElementById("login-error");
+
+const problemTitle = document.getElementById("problem-title");
+const problemWeek = document.getElementById("problem-week");
+const problemPrompt = document.getElementById("problem-prompt");
+const diagramContainer = document.getElementById("diagram-container");
+
+const finalAnswerInput = document.getElementById("final-answer");
+const reasoningInput = document.getElementById("reasoning");
+const responseError = document.getElementById("response-error");
+
+function randomChoice(array) {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
-function generateAssessment(){
-const first=document.getElementById("firstName").value.trim();
-const last=document.getElementById("lastName").value.trim();
-
-if(!first || !last){
-document.getElementById("error").textContent="Please enter your first and last name.";
-return;
+function randomInteger(minimum, maximum) {
+  return Math.floor(
+    Math.random() * (maximum - minimum + 1)
+  ) + minimum;
 }
 
-document.getElementById("studentName").textContent=first+" "+last;
-document.getElementById("assessmentCode").textContent=makeCode();
-document.getElementById("start").classList.add("hidden");
-document.getElementById("assessment").classList.remove("hidden");
+function shuffle(array) {
+  const copy = [...array];
 
-const tasks=[
-investigation1(),
-investigation2(),
-investigation3()
-];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
 
-document.getElementById("investigations").innerHTML=tasks.join("");
+    [copy[index], copy[randomIndex]] =
+      [copy[randomIndex], copy[index]];
+  }
+
+  return copy;
 }
 
-function investigation1(){
-const k=rand([2,3]);
-return `
-<div class="investigation">
-<h2>Investigation 1: Similarity & Transformations</h2>
-<p>This investigation connects dilations, scale factor, coordinates, and similarity transformations.</p>
-
-<svg width="100%" height="320" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coordinate grid showing triangle ABC and space for a dilation image">
-<rect width="900" height="320" fill="#f6f9fb"/>
-<line x1="80" y1="270" x2="820" y2="270" stroke="#0f2d44" stroke-width="2"/>
-<line x1="120" y1="290" x2="120" y2="40" stroke="#0f2d44" stroke-width="2"/>
-<g stroke="#d6e6ef" stroke-width="1">
-${[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(i=>`<line x1="${120+i*45}" y1="40" x2="${120+i*45}" y2="290"/>`).join("")}
-${[1,2,3,4,5,6].map(i=>`<line x1="80" y1="${270-i*35}" x2="820" y2="${270-i*35}"/>`).join("")}
-</g>
-<polygon points="165,200 255,235 210,130" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<text x="155" y="195" font-family="Arial" font-size="18" font-weight="bold">A(1,2)</text>
-<text x="260" y="242" font-family="Arial" font-size="18" font-weight="bold">B(3,1)</text>
-<text x="215" y="125" font-family="Arial" font-size="18" font-weight="bold">C(2,4)</text>
-<text x="470" y="35" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#0f2d44">Dilate △ABC from the origin</text>
-<text x="470" y="65" text-anchor="middle" font-family="Arial" font-size="18" fill="#1f2933">Scale factor: ${k}</text>
-</svg>
-
-<div class="part">
-<p><strong>A.</strong> Find the coordinates of A′, B′, and C′ after a dilation from the origin by a scale factor of <strong>${k}</strong>.</p>
-<textarea class="workspace" placeholder="Show coordinate work here..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>B.</strong> Explain how you know △ABC and △A′B′C′ are similar.</p>
-<textarea class="workspace" placeholder="Use the words dilation, scale factor, corresponding sides, and angle measures..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>C.</strong> If the perimeter of △ABC is 18 units, what is the perimeter of △A′B′C′? Explain your reasoning.</p>
-<textarea class="workspace" placeholder="Explain how perimeter changes under dilation..."></textarea>
-</div>
-</div>`;
+function cleanName(value) {
+  return value.trim().replace(/\s+/g, " ");
 }
 
-function investigation2(){
-const person=rand([4,5,6]);
-const shadow=rand([6,8,9]);
-const scale=rand([3,4,5]);
-const perim=rand([16,18,24]);
-const area=rand([12,15,20]);
-const k=rand([2,3]);
-return `
-<div class="investigation">
-<h2>Investigation 2: Similarity Applications</h2>
-<p>This investigation connects similarity statements, indirect measurement, perimeter, and area.</p>
-
-<svg width="100%" height="360" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Similarity application diagrams with triangles, shadows, and scale factor reminders">
-<rect width="900" height="360" fill="#f6f9fb"/>
-
-<polygon points="90,170 250,170 140,55" fill="#2f80a8" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<polygon points="400,175 620,175 470,30" fill="#3ca65c" opacity=".75" stroke="#0f2d44" stroke-width="3"/>
-<text x="140" y="48" font-size="18" font-weight="bold">A</text>
-<text x="70" y="195" font-size="18" font-weight="bold">B</text>
-<text x="255" y="195" font-size="18" font-weight="bold">C</text>
-<text x="470" y="24" font-size="18" font-weight="bold">D</text>
-<text x="380" y="200" font-size="18" font-weight="bold">E</text>
-<text x="625" y="200" font-size="18" font-weight="bold">F</text>
-<text x="330" y="100" text-anchor="middle" font-size="18" font-family="Arial" fill="#0f2d44">A ↔ D, B ↔ E, C ↔ F</text>
-
-<line x1="90" y1="300" x2="800" y2="300" stroke="#0f2d44" stroke-width="3"/>
-<line x1="150" y1="300" x2="150" y2="240" stroke="#2f80a8" stroke-width="7"/>
-<line x1="150" y1="240" x2="260" y2="300" stroke="#2f80a8" stroke-width="4"/>
-<text x="120" y="275" font-size="16">${person} ft</text>
-<text x="180" y="325" font-size="16">${shadow} ft</text>
-<line x1="560" y1="300" x2="560" y2="200" stroke="#3ca65c" stroke-width="10"/>
-<line x1="560" y1="200" x2="760" y2="300" stroke="#3ca65c" stroke-width="4"/>
-<text x="530" y="255" font-size="16">x ft</text>
-<text x="630" y="325" font-size="16">${shadow*scale} ft</text>
-</svg>
-
-<div class="part">
-<p><strong>A.</strong> Write the correct similarity statement for the two triangles shown in the top diagram. Then list all three pairs of corresponding sides.</p>
-<textarea class="workspace" placeholder="Write similarity statement and corresponding sides..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>B.</strong> A ${person}-foot person casts a ${shadow}-foot shadow. At the same time, a tree casts a ${shadow*scale}-foot shadow. Find the tree height and explain why similar triangles apply.</p>
-<textarea class="workspace" placeholder="Set up and solve a proportion..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>C.</strong> A figure has perimeter ${perim} units and area ${area} square units. A similar figure is created with side-length scale factor ${k}. Find the new perimeter and new area. Explain why the area rule is different from the perimeter rule.</p>
-<textarea class="workspace" placeholder="Use k for perimeter and k² for area..."></textarea>
-</div>
-</div>`;
+function validNamePart(value) {
+  return /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/.test(value);
 }
 
-function investigation3(){
-const ad=rand([4,5,6]);
-const db=rand([8,10,12]);
-const ae=rand([6,9,12]);
-return `
-<div class="investigation">
-<h2>Investigation 3: Proving with Similarity</h2>
-<p>This investigation focuses on proof reasoning, triangle proportionality, and right triangle altitude similarity.</p>
+function createSvg(width, height, label) {
+  const svg = document.createElementNS(SVG_NS, "svg");
 
-<svg width="100%" height="430" viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle proportionality and right triangle altitude diagrams">
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", label);
 
-<rect width="900" height="430" fill="#f6f9fb"/>
-
-<text x="225" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Triangle Proportionality</text>
-<polygon points="80,245 390,245 230,65" fill="#e8f3f8" stroke="#0f2d44" stroke-width="4"/>
-<line x1="155" y1="155" x2="305" y2="155" stroke="#3ca65c" stroke-width="5"/>
-<text x="230" y="55" font-size="20" font-weight="bold">A</text>
-<text x="60" y="270" font-size="20" font-weight="bold">B</text>
-<text x="400" y="270" font-size="20" font-weight="bold">C</text>
-<text x="135" y="155" font-size="20" font-weight="bold">D</text>
-<text x="315" y="155" font-size="20" font-weight="bold">E</text>
-<text x="175" y="105" font-size="16">AD=${ad}</text>
-<text x="105" y="205" font-size="16">DB=${db}</text>
-<text x="285" y="105" font-size="16">AE=${ae}</text>
-<text x="335" y="205" font-size="16">EC=x</text>
-<text x="235" y="285" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f2d44">DE ∥ BC</text>
-
-<text x="670" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0f2d44">Right Triangle Altitude</text>
-<polygon points="520,70 520,270 835,270" fill="#fff8e6" stroke="#0f2d44" stroke-width="4"/>
-<line x1="520" y1="270" x2="635" y2="155" stroke="#2f8f2f" stroke-width="5"/>
-<path d="M520 235 L555 235 L555 270" fill="none" stroke="#d92323" stroke-width="4"/>
-<path d="M615 170 L638 193 L660 165" fill="none" stroke="#d92323" stroke-width="4"/>
-<text x="490" y="70" font-size="28" font-weight="bold">A</text>
-<text x="490" y="300" font-size="28" font-weight="bold">B</text>
-<text x="845" y="300" font-size="28" font-weight="bold">C</text>
-<text x="645" y="150" font-size="28" font-weight="bold">D</text>
-<text x="690" y="105" font-size="18" fill="#0f2d44" font-weight="bold">BD ⟂ AC</text>
-
-<rect x="245" y="335" width="410" height="55" rx="8" fill="white" stroke="#0f2d44" stroke-width="3"/>
-<text x="450" y="370" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#0f2d44">Similarity helps us prove relationships.</text>
-</svg>
-
-<div class="part">
-<p><strong>A.</strong> In the triangle proportionality diagram, find x. Write the proportion you used and explain why the Triangle Proportionality Theorem applies.</p>
-<textarea class="workspace" placeholder="Write the proportion, solve for x, and justify the theorem..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>B.</strong> For the right triangle altitude diagram, write the correct similarity statement for the three triangles.</p>
-<textarea class="workspace" placeholder="Hint: Match the right angles first."></textarea>
-</div>
-
-<div class="part">
-<p><strong>C.</strong> Complete this proof explanation: Because BD is perpendicular to AC, the smaller triangles are right triangles. Each smaller triangle also shares an acute angle with △ABC. Therefore, the triangles are similar by ________. Explain why this proves the similarity statement.</p>
-<textarea class="workspace" placeholder="Use AA Similarity and corresponding angles in your explanation..."></textarea>
-</div>
-
-<div class="part">
-<p><strong>D.</strong> Explain why it is important to prove triangles are similar before using corresponding sides to write a proportion.</p>
-<textarea class="workspace" placeholder="Explain the connection between similarity and proportional sides..."></textarea>
-</div>
-</div>`;
+  return svg;
 }
+
+function addLine(svg, x1, y1, x2, y2, options = {}) {
+  const line = document.createElementNS(SVG_NS, "line");
+
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y1);
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y2);
+  line.setAttribute("stroke", options.stroke || "#0f2d44");
+  line.setAttribute("stroke-width", options.width || 3);
+
+  if (options.dash) {
+    line.setAttribute("stroke-dasharray", options.dash);
+  }
+
+  svg.appendChild(line);
+
+  return line;
+}
+
+function addText(svg, value, x, y, options = {}) {
+  const text = document.createElementNS(SVG_NS, "text");
+
+  text.setAttribute("x", x);
+  text.setAttribute("y", y);
+  text.setAttribute("text-anchor", options.anchor || "middle");
+  text.setAttribute("fill", options.fill || "#1f2933");
+  text.setAttribute("font-size", options.size || 17);
+  text.setAttribute("font-weight", options.weight || "normal");
+
+  text.textContent = value;
+
+  svg.appendChild(text);
+
+  return text;
+}
+
+function addPolygon(svg, points, options = {}) {
+  const polygon = document.createElementNS(SVG_NS, "polygon");
+
+  polygon.setAttribute(
+    "points",
+    points.map((point) => point.join(",")).join(" ")
+  );
+
+  polygon.setAttribute("fill", options.fill || "none");
+  polygon.setAttribute("fill-opacity", options.opacity || "1");
+  polygon.setAttribute("stroke", options.stroke || "#0f2d44");
+  polygon.setAttribute("stroke-width", options.width || 3);
+
+  svg.appendChild(polygon);
+
+  return polygon;
+}
+
+function addCircle(svg, cx, cy, radius, options = {}) {
+  const circle = document.createElementNS(SVG_NS, "circle");
+
+  circle.setAttribute("cx", cx);
+  circle.setAttribute("cy", cy);
+  circle.setAttribute("r", radius);
+  circle.setAttribute("fill", options.fill || "#ffffff");
+  circle.setAttribute("stroke", options.stroke || "#0f2d44");
+  circle.setAttribute("stroke-width", options.width || 2);
+
+  svg.appendChild(circle);
+
+  return circle;
+}
+
+function addRightAngle(svg, x, y, size, orientation = "up-right") {
+  let points;
+
+  if (orientation === "up-right") {
+    points = [
+      [x, y - size],
+      [x + size, y - size],
+      [x + size, y]
+    ];
+  } else if (orientation === "up-left") {
+    points = [
+      [x, y - size],
+      [x - size, y - size],
+      [x - size, y]
+    ];
+  } else {
+    points = [
+      [x, y],
+      [x + size, y],
+      [x + size, y - size]
+    ];
+  }
+
+  const path = document.createElementNS(SVG_NS, "polyline");
+
+  path.setAttribute(
+    "points",
+    points.map((point) => point.join(",")).join(" ")
+  );
+
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "#0f2d44");
+  path.setAttribute("stroke-width", "2");
+
+  svg.appendChild(path);
+}
+
+function addParallelMarks(svg, x1, y1, x2, y2) {
+  const midpointX = (x1 + x2) / 2;
+  const midpointY = (y1 + y2) / 2;
+
+  addLine(
+    svg,
+    midpointX - 6,
+    midpointY - 7,
+    midpointX,
+    midpointY + 1,
+    { width: 2 }
+  );
+
+  addLine(
+    svg,
+    midpointX,
+    midpointY - 7,
+    midpointX + 6,
+    midpointY + 1,
+    { width: 2 }
+  );
+}
+
+function coordinateGridDiagram(data) {
+  const svg = createSvg(
+    700,
+    540,
+    "Coordinate plane showing a preimage triangle for a dilation"
+  );
+
+  const originX = 350;
+  const originY = 270;
+  const scale = 36;
+
+  for (let coordinate = -8; coordinate <= 8; coordinate += 1) {
+    const x = originX + coordinate * scale;
+    const y = originY - coordinate * scale;
+
+    addLine(svg, x, 25, x, 515, {
+      stroke: coordinate === 0 ? "#0f2d44" : "#d6e6ef",
+      width: coordinate === 0 ? 3 : 1
+    });
+
+    addLine(svg, 55, y, 645, y, {
+      stroke: coordinate === 0 ? "#0f2d44" : "#d6e6ef",
+      width: coordinate === 0 ? 3 : 1
+    });
+
+    if (coordinate !== 0) {
+      addText(svg, coordinate, x, originY + 20, {
+        size: 12,
+        fill: "#536471"
+      });
+
+      addText(svg, coordinate, originX - 18, y + 4, {
+        size: 12,
+        fill: "#536471"
+      });
+    }
+  }
+
+  addText(svg, "x", 660, originY - 8, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, "y", originX + 16, 35, {
+    size: 17,
+    weight: "bold"
+  });
+
+  const plottedPoints = data.points.map((point) => [
+    originX + point.x * scale,
+    originY - point.y * scale
+  ]);
+
+  addPolygon(svg, plottedPoints, {
+    fill: "#2f80a8",
+    opacity: "0.14",
+    stroke: "#2f80a8",
+    width: 4
+  });
+
+  data.points.forEach((point, index) => {
+    const x = originX + point.x * scale;
+    const y = originY - point.y * scale;
+
+    addCircle(svg, x, y, 5, {
+      fill: "#2f80a8",
+      stroke: "#2f80a8"
+    });
+
+    addText(
+      svg,
+      `${data.labels[index]}(${point.x}, ${point.y})`,
+      x + 8,
+      y - 12,
+      {
+        anchor: "start",
+        size: 15,
+        weight: "bold",
+        fill: "#0f2d44"
+      }
+    );
+  });
+
+  addText(
+    svg,
+    `Dilation centered at the origin with scale factor k = ${data.scaleFactor}`,
+    350,
+    530,
+    {
+      size: 17,
+      weight: "bold",
+      fill: "#0f2d44"
+    }
+  );
+
+  return svg;
+}
+
+function scaleRelationshipDiagram(data) {
+  const svg = createSvg(
+    720,
+    380,
+    "Two similar polygons with perimeter and area information"
+  );
+
+  addPolygon(
+    svg,
+    [
+      [75, 245],
+      [140, 105],
+      [275, 105],
+      [330, 245]
+    ],
+    {
+      fill: "#0f2d44",
+      opacity: "0.12",
+      stroke: "#0f2d44",
+      width: 4
+    }
+  );
+
+  addPolygon(
+    svg,
+    [
+      [405, 285],
+      [485, 55],
+      [650, 55],
+      [705, 285]
+    ],
+    {
+      fill: "#2f80a8",
+      opacity: "0.12",
+      stroke: "#2f80a8",
+      width: 4
+    }
+  );
+
+  addText(svg, "Figure A", 200, 75, {
+    size: 19,
+    weight: "bold"
+  });
+
+  addText(svg, "Figure B", 560, 28, {
+    size: 19,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(
+    svg,
+    `Perimeter: ${data.preimagePerimeter} units`,
+    200,
+    315,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(
+    svg,
+    `Area: ${data.preimageArea} square units`,
+    200,
+    345,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(
+    svg,
+    `Scale factor A → B: ${data.scaleFactor}`,
+    555,
+    330,
+    {
+      size: 18,
+      weight: "bold",
+      fill: "#2f80a8"
+    }
+  );
+
+  return svg;
+}
+
+function correspondingTrianglesDiagram(data) {
+  const svg = createSvg(
+    760,
+    400,
+    "Two similar triangles with labeled vertices and side lengths"
+  );
+
+  const first = [
+    [70, 305],
+    [305, 305],
+    [165, 65]
+  ];
+
+  const second = [
+    [430, 320],
+    [720, 320],
+    [565, 35]
+  ];
+
+  addPolygon(svg, first, {
+    fill: "#0f2d44",
+    opacity: "0.11",
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addPolygon(svg, second, {
+    fill: "#2f80a8",
+    opacity: "0.11",
+    stroke: "#2f80a8",
+    width: 4
+  });
+
+  addText(svg, "A", 55, 330, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "B", 320, 330, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "C", 165, 50, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "D", 415, 345, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "E", 735, 345, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "F", 565, 23, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, data.ab, 188, 340, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, data.ac, 95, 180, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, data.bc, 255, 180, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, data.de, 575, 360, {
+    size: 17,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, data.df, 475, 185, {
+    size: 17,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "x", 665, 185, {
+    size: 20,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "△ABC ∼ △DEF", 380, 390, {
+    size: 18,
+    weight: "bold"
+  });
+
+  return svg;
+}
+
+function shadowDiagram(data) {
+  const svg = createSvg(
+    760,
+    400,
+    "A person and a tall object casting shadows that form similar triangles"
+  );
+
+  addLine(svg, 40, 320, 730, 320, {
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, 175, 320, 175, 195, {
+    stroke: "#0f2d44",
+    width: 8
+  });
+
+  addCircle(svg, 175, 178, 13, {
+    fill: "#ffffff",
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, 475, 320, 475, 65, {
+    stroke: "#2f80a8",
+    width: 12
+  });
+
+  addLine(svg, 175, 165, 310, 320, {
+    stroke: "#f2b705",
+    width: 4
+  });
+
+  addLine(svg, 475, 65, 715, 320, {
+    stroke: "#f2b705",
+    width: 4
+  });
+
+  addRightAngle(svg, 175, 320, 18, "up-right");
+  addRightAngle(svg, 475, 320, 18, "up-right");
+
+  addText(
+    svg,
+    `${data.personHeight} ft`,
+    125,
+    255,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(
+    svg,
+    `${data.personShadow} ft`,
+    245,
+    350,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(svg, "h", 445, 200, {
+    size: 21,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(
+    svg,
+    `${data.objectShadow} ft`,
+    590,
+    350,
+    {
+      size: 17,
+      weight: "bold",
+      fill: "#2f80a8"
+    }
+  );
+
+  addText(svg, "Same angle of sunlight", 380, 30, {
+    size: 17,
+    weight: "bold"
+  });
+
+  return svg;
+}
+
+function parallelTriangleDiagram(data) {
+  const svg = createSvg(
+    740,
+    430,
+    "A triangle containing a segment parallel to one side"
+  );
+
+  const A = [370, 45];
+  const B = [85, 360];
+  const C = [655, 360];
+
+  const D = [215, 215];
+  const E = [525, 215];
+
+  addPolygon(svg, [A, B, C], {
+    fill: "#0f2d44",
+    opacity: "0.07",
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, D[0], D[1], E[0], E[1], {
+    stroke: "#2f80a8",
+    width: 5
+  });
+
+  addParallelMarks(svg, B[0], B[1], C[0], C[1]);
+  addParallelMarks(svg, D[0], D[1], E[0], E[1]);
+
+  addText(svg, "A", 370, 30, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "B", 68, 382, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "C", 672, 382, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "D", 198, 210, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "E", 542, 210, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, `AD = ${data.ad}`, 270, 115, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, `DB = ${data.db}`, 145, 285, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, `AE = ${data.ae}`, 475, 115, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, "EC = x", 590, 285, {
+    size: 17,
+    weight: "bold"
+  });
+
+  addText(svg, "DE ∥ BC", 370, 405, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  return svg;
+}
+
+function altitudeTriangleDiagram(data) {
+  const svg = createSvg(
+    760,
+    430,
+    "A right triangle with an altitude drawn to the hypotenuse"
+  );
+
+  const A = [100, 345];
+  const B = [660, 345];
+  const C = [300, 65];
+  const D = [300, 345];
+
+  addPolygon(svg, [A, B, C], {
+    fill: "#2f80a8",
+    opacity: "0.09",
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, C[0], C[1], D[0], D[1], {
+    stroke: "#2f80a8",
+    width: 5
+  });
+
+  addRightAngle(svg, D[0], D[1], 20, "up-right");
+
+  addText(svg, "A", 82, 370, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "B", 678, 370, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "C", 300, 48, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "D", 300, 372, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(
+    svg,
+    `AD = ${data.leftSegment}`,
+    195,
+    330,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(
+    svg,
+    `DB = ${data.rightSegment}`,
+    480,
+    330,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  addText(svg, "CD = h", 340, 210, {
+    size: 18,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(
+    svg,
+    "CD is perpendicular to AB",
+    380,
+    410,
+    {
+      size: 17,
+      weight: "bold"
+    }
+  );
+
+  return svg;
+}
+
+function proofDiagram(data) {
+  const svg = createSvg(
+    740,
+    410,
+    "Two intersecting lines forming triangles used in a similarity proof"
+  );
+
+  const A = [90, 80];
+  const B = [650, 330];
+  const C = [650, 80];
+  const D = [90, 330];
+  const X = [370, 205];
+
+  addLine(svg, A[0], A[1], B[0], B[1], {
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, C[0], C[1], D[0], D[1], {
+    stroke: "#2f80a8",
+    width: 4
+  });
+
+  addLine(svg, A[0], A[1], C[0], C[1], {
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addLine(svg, D[0], D[1], B[0], B[1], {
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addText(svg, "A", 72, 72, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "B", 668, 350, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "C", 668, 72, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "D", 72, 350, {
+    size: 18,
+    weight: "bold"
+  });
+
+  addText(svg, "X", X[0], X[1] - 12, {
+    size: 18,
+    weight: "bold",
+    fill: "#b42318"
+  });
+
+  addText(svg, `AX = ${data.ax}`, 220, 125, {
+    size: 16,
+    weight: "bold"
+  });
+
+  addText(svg, `XB = ${data.xb}`, 520, 285, {
+    size: 16,
+    weight: "bold"
+  });
+
+  addText(svg, `CX = ${data.cx}`, 520, 125, {
+    size: 16,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(svg, "XD = x", 220, 285, {
+    size: 16,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
+
+  addText(
+    svg,
+    "∠A ≅ ∠C and vertical angles at X are congruent",
+    370,
+    390,
+    {
+      size: 16,
+      weight: "bold"
+    }
+  );
+
+  return svg;
+}
+
+function buildWeekOneProblems() {
+  const coordinateCases = [
+    {
+      points: [
+        { x: 1, y: 1 },
+        { x: 3, y: 1 },
+        { x: 2, y: 3 }
+      ],
+      labels: ["A", "B", "C"],
+      scaleFactor: 2
+    },
+    {
+      points: [
+        { x: -1, y: 1 },
+        { x: -3, y: 1 },
+        { x: -2, y: 3 }
+      ],
+      labels: ["P", "Q", "R"],
+      scaleFactor: 2
+    },
+    {
+      points: [
+        { x: 2, y: -2 },
+        { x: 4, y: -2 },
+        { x: 3, y: -4 }
+      ],
+      labels: ["J", "K", "L"],
+      scaleFactor: 0.5
+    }
+  ];
+
+  const coordinateData = randomChoice(coordinateCases);
+
+  const scaleFactor = randomChoice([2, 3, 0.5]);
+
+  const preimagePerimeter = randomChoice([18, 24, 30]);
+  const preimageArea = randomChoice([20, 24, 32]);
+
+  const relationshipData = {
+    scaleFactor,
+    preimagePerimeter,
+    preimageArea
+  };
+
+  return [
+    {
+      week: "Week 1 — Dilations and Similarity Foundations",
+      title: "Coordinate Dilation",
+      prompt:
+        `Dilate the triangle about the origin using scale factor k = ${coordinateData.scaleFactor}. State the coordinates of every image vertex. Then explain whether the transformation is an enlargement or a reduction.`,
+      diagram: () => coordinateGridDiagram(coordinateData)
+    },
+    {
+      week: "Week 1 — Dilations and Similarity Foundations",
+      title: "Scale Factor, Perimeter, and Area",
+      prompt:
+        `Figure B is the image of Figure A under a dilation with scale factor ${scaleFactor}. Determine the perimeter and area of Figure B. Explain why the perimeter and area do not use the same multiplier.`,
+      diagram: () => scaleRelationshipDiagram(relationshipData)
+    }
+  ];
+}
+
+function buildWeekTwoProblems() {
+  const scale = randomChoice([2, 3]);
+
+  const ab = randomChoice([4, 5, 6]);
+  const ac = randomChoice([5, 7, 8]);
+  const bc = randomChoice([6, 8, 9]);
+
+  const correspondenceData = {
+    ab,
+    ac,
+    bc,
+    de: ab * scale,
+    df: ac * scale
+  };
+
+  const shadowCases = [
+    {
+      personHeight: 5,
+      personShadow: 4,
+      objectShadow: 12
+    },
+    {
+      personHeight: 6,
+      personShadow: 4,
+      objectShadow: 10
+    },
+    {
+      personHeight: 6,
+      personShadow: 5,
+      objectShadow: 15
+    }
+  ];
+
+  const shadowData = randomChoice(shadowCases);
+
+  return [
+    {
+      week: "Week 2 — Applying Similarity",
+      title: "Correspondence and Proportional Reasoning",
+      prompt:
+        `The diagram states △ABC ∼ △DEF. Identify the corresponding vertices, write a valid proportion, and solve for x. Explain how the order of the similarity statement determines your proportion.`,
+      diagram: () => correspondingTrianglesDiagram(correspondenceData)
+    },
+    {
+      week: "Week 2 — Applying Similarity",
+      title: "Indirect Measurement",
+      prompt:
+        `A person and a taller object cast shadows at the same time. Determine the height of the taller object. Explain why the triangles are similar and show the proportion you used.`,
+      diagram: () => shadowDiagram(shadowData)
+    }
+  ];
+}
+
+function buildWeekThreeProblems() {
+  const ad = randomChoice([3, 4, 5, 6]);
+  const db = randomChoice([6, 8, 10, 12]);
+  const multiplier = randomChoice([2, 3]);
+
+  const proportionalityData = {
+    ad,
+    db,
+    ae: ad * multiplier
+  };
+
+  const proofScale = randomChoice([2, 3]);
+
+  const proofData = {
+    ax: randomChoice([3, 4, 5]),
+    xb: randomChoice([6, 8, 10])
+  };
+
+  proofData.cx = proofData.ax * proofScale;
+
+  const altitudePairs = [
+    {
+      leftSegment: 4,
+      rightSegment: 9
+    },
+    {
+      leftSegment: 8,
+      rightSegment: 18
+    },
+    {
+      leftSegment: 5,
+      rightSegment: 20
+    }
+  ];
+
+  const altitudeData = randomChoice(altitudePairs);
+
+  const advancedProblem = randomChoice([
+    {
+      week: "Week 3 — Similarity Theorems and Proofs",
+      title: "Right-Triangle Altitude Similarity",
+      prompt:
+        `The altitude from the right-angle vertex divides the hypotenuse into the labeled segments. Find the altitude h. Identify the geometric-mean relationship you used and explain how it follows from similar triangles.`,
+      diagram: () => altitudeTriangleDiagram(altitudeData)
+    },
+    {
+      week: "Week 3 — Similarity Theorems and Proofs",
+      title: "Similarity Proof and Proportional Segments",
+      prompt:
+        `Use the given angle information to justify that the two triangles are similar. Name the similarity criterion, write the resulting proportion, and solve for x.`,
+      diagram: () => proofDiagram(proofData)
+    }
+  ]);
+
+  return [
+    {
+      week: "Week 3 — Similarity Theorems and Proofs",
+      title: "Triangle Proportionality Theorem",
+      prompt:
+        `Because DE is parallel to BC, the sides of the triangle are divided proportionally. Write a valid proportion and solve for x. Explain which theorem supports your equation.`,
+      diagram: () => parallelTriangleDiagram(proportionalityData)
+    },
+    advancedProblem
+  ];
+}
+
+function buildAssessment() {
+  return [
+    ...shuffle(buildWeekOneProblems()),
+    ...shuffle(buildWeekTwoProblems()),
+    ...shuffle(buildWeekThreeProblems())
+  ];
+}
+
+function generateAssessmentCode() {
+  const now = new Date();
+
+  const datePart = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("");
+
+  const initials =
+    `${student.first.charAt(0)}${student.last.charAt(0)}`
+      .toUpperCase();
+
+  const randomPart = Math.random()
+    .toString(36)
+    .slice(2, 7)
+    .toUpperCase();
+
+  return `GEO-U3-${datePart}-${initials}${randomPart}`;
+}
+
+function generateAssessment() {
+  const first = cleanName(firstNameInput.value);
+  const last = cleanName(lastNameInput.value);
+
+  if (!validNamePart(first) || !validNamePart(last)) {
+    loginError.textContent =
+      "Enter a valid first and last name before generating the assessment.";
+
+    return;
+  }
+
+  student = {
+    first,
+    last,
+    fullName: `${first} ${last}`
+  };
+
+  assessmentCode = generateAssessmentCode();
+  problems = buildAssessment();
+  currentProblemIndex = 0;
+  responses = [];
+
+  document.getElementById("assessment-code")
+    .textContent = assessmentCode;
+
+  loginSection.classList.add("hidden");
+  codeSection.classList.remove("hidden");
+
+  window.scrollTo({
+    top: codeSection.offsetTop - 10,
+    behavior: "smooth"
+  });
+}
+
+function beginAssessment() {
+  codeSection.classList.add("hidden");
+  assessmentSection.classList.remove("hidden");
+
+  renderProblem();
+  resizeWhiteboard();
+
+  window.scrollTo({
+    top: assessmentSection.offsetTop - 10,
+    behavior: "smooth"
+  });
+}
+
+function renderProblem() {
+  const problem = problems[currentProblemIndex];
+
+  problemTitle.textContent =
+    `Problem ${currentProblemIndex + 1}: ${problem.title}`;
+
+  problemWeek.textContent = problem.week;
+  problemPrompt.textContent = problem.prompt;
+
+  diagramContainer.innerHTML = "";
+  diagramContainer.appendChild(problem.diagram());
+
+  finalAnswerInput.value = "";
+  reasoningInput.value = "";
+  responseError.textContent = "";
+
+  document.getElementById("next-button").textContent =
+    currentProblemIndex === 5
+      ? "Submit Final Response"
+      : "Submit Response and Continue";
+
+  updateProgress();
+  clearWhiteboard(false);
+
+  finalAnswerInput.focus();
+}
+
+function updateProgress() {
+  const currentNumber = currentProblemIndex + 1;
+  const percent = (currentNumber / 6) * 100;
+
+  document.getElementById("progress-fill")
+    .style.width = `${percent}%`;
+
+  document.getElementById("progress-label")
+    .textContent = `Problem ${currentNumber} of 6`;
+
+  document.getElementById("progress-track")
+    .setAttribute("aria-valuenow", String(currentNumber));
+
+  for (let index = 0; index < 6; index += 1) {
+    const step = document.getElementById(`step-${index}`);
+
+    step.classList.remove("active", "complete");
+
+    if (index < currentProblemIndex) {
+      step.classList.add("complete");
+      step.textContent = `${index + 1} ✓`;
+    } else if (index === currentProblemIndex) {
+      step.classList.add("active");
+      step.textContent = String(index + 1);
+    } else {
+      step.textContent = String(index + 1);
+    }
+  }
+}
+
+function submitResponse() {
+  const answer = finalAnswerInput.value.trim();
+  const reasoning = reasoningInput.value.trim();
+
+  if (answer.length < 1) {
+    responseError.textContent =
+      "Enter your final answer before continuing.";
+
+    finalAnswerInput.focus();
+    return;
+  }
+
+  if (reasoning.length < 20) {
+    responseError.textContent =
+      "Add a brief mathematical explanation of at least 20 characters.";
+
+    reasoningInput.focus();
+    return;
+  }
+
+  const confirmed = window.confirm(
+    "Submit this response? You will not be able to return to this problem."
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  responses.push({
+    problemNumber: currentProblemIndex + 1,
+    title: problems[currentProblemIndex].title,
+    week: problems[currentProblemIndex].week,
+    answer,
+    reasoning
+  });
+
+  currentProblemIndex += 1;
+
+  if (currentProblemIndex < problems.length) {
+    renderProblem();
+
+    window.scrollTo({
+      top: assessmentSection.offsetTop - 10,
+      behavior: "smooth"
+    });
+
+    return;
+  }
+
+  showCompletion();
+}
+
+function showCompletion() {
+  assessmentSection.classList.add("hidden");
+  completionSection.classList.remove("hidden");
+
+  const now = new Date();
+
+  document.getElementById("completion-name")
+    .textContent = student.fullName;
+
+  document.getElementById("completion-code")
+    .textContent = assessmentCode;
+
+  document.getElementById("completion-date")
+    .textContent = now.toLocaleString(
+      "en-US",
+      {
+        dateStyle: "long",
+        timeStyle: "short"
+      }
+    );
+
+  const summaryBody = document.getElementById("summary-body");
+
+  summaryBody.innerHTML = "";
+
+  responses.forEach((response) => {
+    const row = document.createElement("tr");
+    const numberCell = document.createElement("td");
+    const topicCell = document.createElement("td");
+    const answerCell = document.createElement("td");
+
+    numberCell.textContent = response.problemNumber;
+    topicCell.textContent = response.title;
+    answerCell.textContent = response.answer;
+
+    row.appendChild(numberCell);
+    row.appendChild(topicCell);
+    row.appendChild(answerCell);
+
+    summaryBody.appendChild(row);
+  });
+
+  window.scrollTo({
+    top: completionSection.offsetTop - 10,
+    behavior: "smooth"
+  });
+}
+
+/* Whiteboard */
+
+const canvas = document.getElementById("whiteboard");
+const context = canvas.getContext("2d");
+
+let drawing = false;
+let currentTool = "pen";
+let currentColor = "#0f2d44";
+let currentWidth = 4;
+let history = [];
+
+function resizeWhiteboard() {
+  const wrap = document.getElementById("whiteboard-wrap");
+  const ratio = window.devicePixelRatio || 1;
+
+  const previousImage =
+    canvas.width > 0 && canvas.height > 0
+      ? canvas.toDataURL()
+      : null;
+
+  canvas.width = Math.floor(wrap.clientWidth * ratio);
+  canvas.height = Math.floor(wrap.clientHeight * ratio);
+
+  canvas.style.width = `${wrap.clientWidth}px`;
+  canvas.style.height = `${wrap.clientHeight}px`;
+
+  context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  context.lineCap = "round";
+  context.lineJoin = "round";
+
+  if (previousImage) {
+    const image = new Image();
+
+    image.onload = () => {
+      context.drawImage(
+        image,
+        0,
+        0,
+        wrap.clientWidth,
+        wrap.clientHeight
+      );
+    };
+
+    image.src = previousImage;
+  }
+}
+
+function getPointerPosition(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+}
+
+function saveHistory() {
+  if (history.length >= 20) {
+    history.shift();
+  }
+
+  history.push(canvas.toDataURL());
+}
+
+function beginStroke(event) {
+  event.preventDefault();
+
+  saveHistory();
+  drawing = true;
+
+  const point = getPointerPosition(event);
+
+  context.beginPath();
+  context.moveTo(point.x, point.y);
+}
+
+function continueStroke(event) {
+  if (!drawing) {
+    return;
+  }
+
+  event.preventDefault();
+
+  const point = getPointerPosition(event);
+
+  context.globalCompositeOperation =
+    currentTool === "eraser"
+      ? "destination-out"
+      : "source-over";
+
+  context.strokeStyle = currentColor;
+
+  context.lineWidth =
+    currentTool === "eraser"
+      ? Math.max(currentWidth * 4, 16)
+      : currentWidth;
+
+  context.lineTo(point.x, point.y);
+  context.stroke();
+}
+
+function endStroke() {
+  if (!drawing) {
+    return;
+  }
+
+  drawing = false;
+  context.closePath();
+  context.globalCompositeOperation = "source-over";
+}
+
+function undoWhiteboard() {
+  const previous = history.pop();
+
+  if (!previous) {
+    return;
+  }
+
+  const image = new Image();
+
+  image.onload = () => {
+    context.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    const wrap = document.getElementById("whiteboard-wrap");
+
+    context.drawImage(
+      image,
+      0,
+      0,
+      wrap.clientWidth,
+      wrap.clientHeight
+    );
+  };
+
+  image.src = previous;
+}
+
+function clearWhiteboard(confirmFirst = true) {
+  if (
+    confirmFirst &&
+    !window.confirm("Clear all whiteboard work?")
+  ) {
+    return;
+  }
+
+  context.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  history = [];
+}
+
+function selectTool(tool) {
+  currentTool = tool;
+
+  document.getElementById("pen-tool")
+    .classList.toggle("active", tool === "pen");
+
+  document.getElementById("eraser-tool")
+    .classList.toggle("active", tool === "eraser");
+}
+
+canvas.addEventListener("pointerdown", beginStroke);
+canvas.addEventListener("pointermove", continueStroke);
+canvas.addEventListener("pointerup", endStroke);
+canvas.addEventListener("pointerleave", endStroke);
+canvas.addEventListener("pointercancel", endStroke);
+
+document.getElementById("pen-tool")
+  .addEventListener("click", () => selectTool("pen"));
+
+document.getElementById("eraser-tool")
+  .addEventListener("click", () => selectTool("eraser"));
+
+document.getElementById("undo-tool")
+  .addEventListener("click", undoWhiteboard);
+
+document.getElementById("clear-tool")
+  .addEventListener("click", () => clearWhiteboard(true));
+
+document.getElementById("line-width")
+  .addEventListener("change", (event) => {
+    currentWidth = Number(event.target.value);
+  });
+
+document.querySelectorAll(".color-button")
+  .forEach((button) => {
+    button.addEventListener("click", () => {
+      currentColor = button.dataset.color;
+      selectTool("pen");
+
+      document.querySelectorAll(".color-button")
+        .forEach((item) => item.classList.remove("active"));
+
+      button.classList.add("active");
+    });
+  });
+
+document.getElementById("generate-button")
+  .addEventListener("click", generateAssessment);
+
+document.getElementById("begin-button")
+  .addEventListener("click", beginAssessment);
+
+document.getElementById("next-button")
+  .addEventListener("click", submitResponse);
+
+window.addEventListener("resize", () => {
+  if (!assessmentSection.classList.contains("hidden")) {
+    resizeWhiteboard();
+  }
+});
+
+window.addEventListener("beforeunload", (event) => {
+  if (
+    !assessmentSection.classList.contains("hidden") &&
+    currentProblemIndex < 6
+  ) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+});
 </script>
 </body>
 </html>
