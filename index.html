@@ -41,14 +41,12 @@
 
     button,
     input,
-    textarea,
     select {
       font: inherit;
     }
 
     button:focus,
     input:focus,
-    textarea:focus,
     select:focus,
     a:focus {
       outline: 4px solid rgba(242, 183, 5, 0.45);
@@ -103,11 +101,6 @@
       background: var(--light-yellow);
     }
 
-    .purple-card {
-      border-left: 6px solid var(--purple);
-      background: var(--light-purple);
-    }
-
     h2,
     h3 {
       color: var(--navy);
@@ -143,10 +136,6 @@
       background: var(--blue);
     }
 
-    .button.warning {
-      background: #8a5a00;
-    }
-
     .button:disabled {
       opacity: 0.48;
       cursor: not-allowed;
@@ -163,21 +152,31 @@
       text-align: center;
     }
 
-    .name-grid {
+    .name-grid,
+    .response-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      grid-template-columns: repeat(2, minmax(190px, 1fr));
       gap: 14px;
       margin: 18px 0;
     }
 
+    .response-grid.three {
+      grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+
+    .response-grid.four {
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+    }
+
     label {
+      display: block;
       color: var(--navy);
       font-weight: bold;
     }
 
     .text-input,
     .answer-input,
-    .reasoning-input {
+    .select-input {
       width: 100%;
       margin-top: 7px;
       padding: 11px;
@@ -187,9 +186,10 @@
       color: var(--text);
     }
 
-    .reasoning-input {
-      min-height: 110px;
-      resize: vertical;
+    .coordinate-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
     .error-message {
@@ -433,6 +433,11 @@
       background: var(--gray);
     }
 
+    .summary-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
     .completion-banner {
       padding: 25px;
       border: 7px double var(--navy);
@@ -462,6 +467,12 @@
       background: var(--gray);
     }
 
+    @media (max-width: 1000px) {
+      .response-grid.four {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+    }
+
     @media (max-width: 900px) {
       .assessment-layout {
         grid-template-columns: 1fr;
@@ -486,6 +497,9 @@
       }
 
       .name-grid,
+      .response-grid,
+      .response-grid.three,
+      .response-grid.four,
       .completion-grid {
         grid-template-columns: 1fr;
       }
@@ -513,13 +527,13 @@
     <h2>Assessment Check-In</h2>
 
     <p>
-      This assessment contains six randomized problems. You will receive
-      two problems from each week of Unit 3.
+      This assessment contains six randomized problems: two from each
+      week of Unit 3.
     </p>
 
     <p>
-      You will complete one problem at a time. After advancing, you cannot
-      return to a previous problem.
+      Complete one problem at a time. After submitting a problem, you
+      cannot return to it.
     </p>
 
     <div class="card yellow-card">
@@ -527,17 +541,16 @@
 
       <p>☐ Close unrelated tabs and applications.</p>
       <p>☐ Open your screen-recording tool.</p>
-      <p>☐ Make sure your microphone is working.</p>
-      <p>☐ Prepare to show your work and explain your reasoning.</p>
+      <p>☐ Check your microphone.</p>
+      <p>☐ Be ready to explain your reasoning aloud.</p>
       <p style="margin-bottom: 0;">
-        Do not begin Problem 1 until your screen recording has started.
+        Do not begin Problem 1 until your recording has started.
       </p>
     </div>
 
     <div class="name-grid">
       <div>
         <label for="first-name">First name</label>
-
         <input
           class="text-input"
           id="first-name"
@@ -549,7 +562,6 @@
 
       <div>
         <label for="last-name">Last name</label>
-
         <input
           class="text-input"
           id="last-name"
@@ -571,8 +583,8 @@
     <h2>Your Assessment Is Ready</h2>
 
     <p>
-      Start your screen recording now. At the beginning of your recording,
-      clearly say your name and assessment code.
+      Start your recording now. At the beginning, clearly say your name
+      and assessment code.
     </p>
 
     <p class="center">
@@ -580,9 +592,8 @@
     </p>
 
     <p>
-      Keep this assessment tab visible throughout your recording. Use the
-      built-in whiteboard to show calculations, diagrams, proportions, and
-      proof notes.
+      Use the built-in whiteboard to show calculations, diagrams,
+      proportions, and proof notes.
     </p>
 
     <div class="button-row">
@@ -611,7 +622,7 @@
       </div>
     </div>
 
-    <div class="steps" id="steps">
+    <div class="steps">
       <div class="step" id="step-0">1</div>
       <div class="step" id="step-1">2</div>
       <div class="step" id="step-2">3</div>
@@ -630,34 +641,14 @@
         <div class="diagram" id="diagram-container"></div>
 
         <p class="not-to-scale">
-          Use the labels, values, and markings. Do not estimate from the drawing.
+          Use the labels, coordinates, values, and markings. Do not
+          estimate from the drawing.
         </p>
 
         <div class="answer-panel">
-          <h3>Submit Your Response</h3>
+          <h3>Record Your Answers</h3>
 
-          <label for="final-answer">
-            Final answer
-          </label>
-
-          <input
-            class="answer-input"
-            id="final-answer"
-            type="text"
-            maxlength="250"
-            placeholder="Enter your final answer, statement, or conclusion."
-          >
-
-          <label for="reasoning">
-            Brief mathematical reasoning
-          </label>
-
-          <textarea
-            class="reasoning-input"
-            id="reasoning"
-            maxlength="1200"
-            placeholder="Explain the steps, theorem, proportion, or relationship you used."
-          ></textarea>
+          <div id="response-container"></div>
 
           <div
             class="error-message"
@@ -670,9 +661,9 @@
 
             <p>☐ My recording is still running.</p>
             <p>☐ My work is visible on the whiteboard.</p>
-            <p>☐ I stated my final answer.</p>
+            <p>☐ I explained my reasoning aloud.</p>
             <p style="margin-bottom: 0;">
-              ☐ I explained why my method is valid.
+              ☐ I checked every answer field.
             </p>
           </div>
 
@@ -741,7 +732,7 @@
 
         <label for="line-width">Line thickness</label>
 
-        <select id="line-width">
+        <select class="select-input" id="line-width">
           <option value="2">Thin</option>
           <option value="4" selected>Medium</option>
           <option value="7">Thick</option>
@@ -771,9 +762,7 @@
 
       <h2>Assessment Complete</h2>
 
-      <p>
-        All six responses have been submitted.
-      </p>
+      <p>All six responses have been submitted.</p>
 
       <div class="completion-grid">
         <div class="completion-item">
@@ -798,16 +787,16 @@
       </div>
 
       <p>
-        Keep recording while you show this completion page. Then stop your
-        recording and submit the video in Canvas.
+        Keep recording while showing this page. Then stop the recording
+        and submit the video in Canvas.
       </p>
     </div>
 
     <h2 style="margin-top: 24px;">Submitted Response Summary</h2>
 
     <p>
-      This summary confirms the answers entered during the assessment.
-      It does not show whether an answer is correct.
+      This summary confirms what was entered. It does not indicate
+      whether an answer is correct.
     </p>
 
     <div style="overflow-x: auto;">
@@ -816,7 +805,7 @@
           <tr>
             <th>Problem</th>
             <th>Topic</th>
-            <th>Submitted Answer</th>
+            <th>Submitted Responses</th>
           </tr>
         </thead>
 
@@ -830,10 +819,10 @@
       <p>☐ My recording includes my name and assessment code.</p>
       <p>☐ My recording shows all six problems.</p>
       <p>☐ My recording shows my mathematical work.</p>
-      <p>☐ My recording includes my explanations.</p>
+      <p>☐ My recording includes my spoken explanations.</p>
       <p>☐ My recording shows this completion page.</p>
       <p style="margin-bottom: 0;">
-        ☐ I will submit the video—not a screenshot—in Canvas.
+        ☐ I will submit the video, not a screenshot, in Canvas.
       </p>
     </div>
   </section>
@@ -868,19 +857,11 @@ const problemTitle = document.getElementById("problem-title");
 const problemWeek = document.getElementById("problem-week");
 const problemPrompt = document.getElementById("problem-prompt");
 const diagramContainer = document.getElementById("diagram-container");
-
-const finalAnswerInput = document.getElementById("final-answer");
-const reasoningInput = document.getElementById("reasoning");
+const responseContainer = document.getElementById("response-container");
 const responseError = document.getElementById("response-error");
 
 function randomChoice(array) {
   return array[Math.floor(Math.random() * array.length)];
-}
-
-function randomInteger(minimum, maximum) {
-  return Math.floor(
-    Math.random() * (maximum - minimum + 1)
-  ) + minimum;
 }
 
 function shuffle(array) {
@@ -902,6 +883,14 @@ function cleanName(value) {
 
 function validNamePart(value) {
   return /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/.test(value);
+}
+
+function formatNumber(value) {
+  if (Number.isInteger(value)) {
+    return String(value);
+  }
+
+  return String(Math.round(value * 100) / 100);
 }
 
 function createSvg(width, height, label) {
@@ -929,7 +918,6 @@ function addLine(svg, x1, y1, x2, y2, options = {}) {
   }
 
   svg.appendChild(line);
-
   return line;
 }
 
@@ -942,11 +930,9 @@ function addText(svg, value, x, y, options = {}) {
   text.setAttribute("fill", options.fill || "#1f2933");
   text.setAttribute("font-size", options.size || 17);
   text.setAttribute("font-weight", options.weight || "normal");
-
   text.textContent = value;
 
   svg.appendChild(text);
-
   return text;
 }
 
@@ -964,7 +950,6 @@ function addPolygon(svg, points, options = {}) {
   polygon.setAttribute("stroke-width", options.width || 3);
 
   svg.appendChild(polygon);
-
   return polygon;
 }
 
@@ -979,38 +964,15 @@ function addCircle(svg, cx, cy, radius, options = {}) {
   circle.setAttribute("stroke-width", options.width || 2);
 
   svg.appendChild(circle);
-
   return circle;
 }
 
-function addRightAngle(svg, x, y, size, orientation = "up-right") {
-  let points;
-
-  if (orientation === "up-right") {
-    points = [
-      [x, y - size],
-      [x + size, y - size],
-      [x + size, y]
-    ];
-  } else if (orientation === "up-left") {
-    points = [
-      [x, y - size],
-      [x - size, y - size],
-      [x - size, y]
-    ];
-  } else {
-    points = [
-      [x, y],
-      [x + size, y],
-      [x + size, y - size]
-    ];
-  }
-
+function addRightAngle(svg, x, y, size) {
   const path = document.createElementNS(SVG_NS, "polyline");
 
   path.setAttribute(
     "points",
-    points.map((point) => point.join(",")).join(" ")
+    `${x},${y - size} ${x + size},${y - size} ${x + size},${y}`
   );
 
   path.setAttribute("fill", "none");
@@ -1020,43 +982,100 @@ function addRightAngle(svg, x, y, size, orientation = "up-right") {
   svg.appendChild(path);
 }
 
-function addParallelMarks(svg, x1, y1, x2, y2) {
+function addParallelMarks(svg, x1, y1, x2, y2, color = "#0f2d44") {
   const midpointX = (x1 + x2) / 2;
   const midpointY = (y1 + y2) / 2;
 
   addLine(
     svg,
-    midpointX - 6,
+    midpointX - 7,
     midpointY - 7,
     midpointX,
     midpointY + 1,
-    { width: 2 }
+    { width: 2, stroke: color }
   );
 
   addLine(
     svg,
     midpointX,
     midpointY - 7,
-    midpointX + 6,
+    midpointX + 7,
     midpointY + 1,
-    { width: 2 }
+    { width: 2, stroke: color }
   );
+}
+
+function createInputField(field) {
+  const wrapper = document.createElement("div");
+  const label = document.createElement("label");
+
+  label.htmlFor = field.id;
+  label.textContent = field.label;
+
+  let input;
+
+  if (field.type === "select") {
+    input = document.createElement("select");
+    input.className = "select-input";
+
+    const blank = document.createElement("option");
+    blank.value = "";
+    blank.textContent = "Select an answer";
+    input.appendChild(blank);
+
+    field.options.forEach((optionText) => {
+      const option = document.createElement("option");
+      option.value = optionText;
+      option.textContent = optionText;
+      input.appendChild(option);
+    });
+  } else {
+    input = document.createElement("input");
+    input.className = "answer-input";
+    input.type = field.type || "text";
+    input.placeholder = field.placeholder || "";
+
+    if (field.step) {
+      input.step = field.step;
+    }
+  }
+
+  input.id = field.id;
+  input.dataset.label = field.label;
+
+  wrapper.appendChild(label);
+  wrapper.appendChild(input);
+
+  return wrapper;
+}
+
+function renderFields(problem) {
+  responseContainer.innerHTML = "";
+
+  const grid = document.createElement("div");
+  grid.className = `response-grid ${problem.gridClass || ""}`.trim();
+
+  problem.fields.forEach((field) => {
+    grid.appendChild(createInputField(field));
+  });
+
+  responseContainer.appendChild(grid);
 }
 
 function coordinateGridDiagram(data) {
   const svg = createSvg(
     700,
-    540,
-    "Coordinate plane showing a preimage triangle for a dilation"
+    560,
+    "Coordinate plane showing a preimage and its dilated image"
   );
 
   const originX = 350;
   const originY = 270;
-  const scale = 36;
+  const gridScale = 36;
 
   for (let coordinate = -8; coordinate <= 8; coordinate += 1) {
-    const x = originX + coordinate * scale;
-    const y = originY - coordinate * scale;
+    const x = originX + coordinate * gridScale;
+    const y = originY - coordinate * gridScale;
 
     addLine(svg, x, 25, x, 515, {
       stroke: coordinate === 0 ? "#0f2d44" : "#d6e6ef",
@@ -1091,25 +1110,42 @@ function coordinateGridDiagram(data) {
     weight: "bold"
   });
 
-  const plottedPoints = data.points.map((point) => [
-    originX + point.x * scale,
-    originY - point.y * scale
+  const imagePoints = data.points.map((point) => ({
+    x: point.x * data.scaleFactor,
+    y: point.y * data.scaleFactor
+  }));
+
+  const preimagePlot = data.points.map((point) => [
+    originX + point.x * gridScale,
+    originY - point.y * gridScale
   ]);
 
-  addPolygon(svg, plottedPoints, {
+  const imagePlot = imagePoints.map((point) => [
+    originX + point.x * gridScale,
+    originY - point.y * gridScale
+  ]);
+
+  addPolygon(svg, preimagePlot, {
+    fill: "#0f2d44",
+    opacity: "0.10",
+    stroke: "#0f2d44",
+    width: 4
+  });
+
+  addPolygon(svg, imagePlot, {
     fill: "#2f80a8",
-    opacity: "0.14",
+    opacity: "0.16",
     stroke: "#2f80a8",
     width: 4
   });
 
   data.points.forEach((point, index) => {
-    const x = originX + point.x * scale;
-    const y = originY - point.y * scale;
+    const x = originX + point.x * gridScale;
+    const y = originY - point.y * gridScale;
 
     addCircle(svg, x, y, 5, {
-      fill: "#2f80a8",
-      stroke: "#2f80a8"
+      fill: "#0f2d44",
+      stroke: "#0f2d44"
     });
 
     addText(
@@ -1119,18 +1155,41 @@ function coordinateGridDiagram(data) {
       y - 12,
       {
         anchor: "start",
-        size: 15,
+        size: 14,
         weight: "bold",
         fill: "#0f2d44"
       }
     );
   });
 
+  imagePoints.forEach((point, index) => {
+    const x = originX + point.x * gridScale;
+    const y = originY - point.y * gridScale;
+
+    addCircle(svg, x, y, 5, {
+      fill: "#2f80a8",
+      stroke: "#2f80a8"
+    });
+
+    addText(
+      svg,
+      `${data.labels[index]}'`,
+      x + 8,
+      y + 18,
+      {
+        anchor: "start",
+        size: 14,
+        weight: "bold",
+        fill: "#2f80a8"
+      }
+    );
+  });
+
   addText(
     svg,
-    `Dilation centered at the origin with scale factor k = ${data.scaleFactor}`,
+    `Navy = preimage | Blue = image | k = ${data.scaleFactor}`,
     350,
-    530,
+    545,
     {
       size: 17,
       weight: "bold",
@@ -1148,6 +1207,9 @@ function scaleRelationshipDiagram(data) {
     "Two similar polygons with perimeter and area information"
   );
 
+  const imageWidth = data.scaleFactor > 1 ? 270 : 120;
+  const imageHeight = data.scaleFactor > 1 ? 200 : 90;
+
   addPolygon(
     svg,
     [
@@ -1164,13 +1226,16 @@ function scaleRelationshipDiagram(data) {
     }
   );
 
+  const centerX = 555;
+  const bottomY = 275;
+
   addPolygon(
     svg,
     [
-      [405, 285],
-      [485, 55],
-      [650, 55],
-      [705, 285]
+      [centerX - imageWidth / 2, bottomY],
+      [centerX - imageWidth / 3, bottomY - imageHeight],
+      [centerX + imageWidth / 3, bottomY - imageHeight],
+      [centerX + imageWidth / 2, bottomY]
     ],
     {
       fill: "#2f80a8",
@@ -1185,7 +1250,7 @@ function scaleRelationshipDiagram(data) {
     weight: "bold"
   });
 
-  addText(svg, "Figure B", 560, 28, {
+  addText(svg, "Figure B", 555, 35, {
     size: 19,
     weight: "bold",
     fill: "#2f80a8"
@@ -1193,7 +1258,7 @@ function scaleRelationshipDiagram(data) {
 
   addText(
     svg,
-    `Perimeter: ${data.preimagePerimeter} units`,
+    `Perimeter of A: ${data.preimagePerimeter}`,
     200,
     315,
     {
@@ -1204,7 +1269,7 @@ function scaleRelationshipDiagram(data) {
 
   addText(
     svg,
-    `Area: ${data.preimageArea} square units`,
+    `Area of A: ${data.preimageArea}`,
     200,
     345,
     {
@@ -1232,49 +1297,34 @@ function correspondingTrianglesDiagram(data) {
   const svg = createSvg(
     760,
     400,
-    "Two similar triangles with labeled vertices and side lengths"
+    "Two similar triangles with corresponding vertices and side lengths"
   );
 
-  const first = [
-    [70, 305],
-    [305, 305],
-    [165, 65]
-  ];
+  addPolygon(
+    svg,
+    [[70, 305], [305, 305], [165, 65]],
+    {
+      fill: "#0f2d44",
+      opacity: "0.11",
+      stroke: "#0f2d44",
+      width: 4
+    }
+  );
 
-  const second = [
-    [430, 320],
-    [720, 320],
-    [565, 35]
-  ];
+  addPolygon(
+    svg,
+    [[430, 320], [720, 320], [565, 35]],
+    {
+      fill: "#2f80a8",
+      opacity: "0.11",
+      stroke: "#2f80a8",
+      width: 4
+    }
+  );
 
-  addPolygon(svg, first, {
-    fill: "#0f2d44",
-    opacity: "0.11",
-    stroke: "#0f2d44",
-    width: 4
-  });
-
-  addPolygon(svg, second, {
-    fill: "#2f80a8",
-    opacity: "0.11",
-    stroke: "#2f80a8",
-    width: 4
-  });
-
-  addText(svg, "A", 55, 330, {
-    size: 18,
-    weight: "bold"
-  });
-
-  addText(svg, "B", 320, 330, {
-    size: 18,
-    weight: "bold"
-  });
-
-  addText(svg, "C", 165, 50, {
-    size: 18,
-    weight: "bold"
-  });
+  addText(svg, "A", 55, 330, { size: 18, weight: "bold" });
+  addText(svg, "B", 320, 330, { size: 18, weight: "bold" });
+  addText(svg, "C", 165, 50, { size: 18, weight: "bold" });
 
   addText(svg, "D", 415, 345, {
     size: 18,
@@ -1373,30 +1423,18 @@ function shadowDiagram(data) {
     width: 4
   });
 
-  addRightAngle(svg, 175, 320, 18, "up-right");
-  addRightAngle(svg, 475, 320, 18, "up-right");
+  addRightAngle(svg, 175, 320, 18);
+  addRightAngle(svg, 475, 320, 18);
 
-  addText(
-    svg,
-    `${data.personHeight} ft`,
-    125,
-    255,
-    {
-      size: 17,
-      weight: "bold"
-    }
-  );
+  addText(svg, `${data.personHeight} ft`, 125, 255, {
+    size: 17,
+    weight: "bold"
+  });
 
-  addText(
-    svg,
-    `${data.personShadow} ft`,
-    245,
-    350,
-    {
-      size: 17,
-      weight: "bold"
-    }
-  );
+  addText(svg, `${data.personShadow} ft`, 245, 350, {
+    size: 17,
+    weight: "bold"
+  });
 
   addText(svg, "h", 445, 200, {
     size: 21,
@@ -1404,17 +1442,11 @@ function shadowDiagram(data) {
     fill: "#2f80a8"
   });
 
-  addText(
-    svg,
-    `${data.objectShadow} ft`,
-    590,
-    350,
-    {
-      size: 17,
-      weight: "bold",
-      fill: "#2f80a8"
-    }
-  );
+  addText(svg, `${data.objectShadow} ft`, 590, 350, {
+    size: 17,
+    weight: "bold",
+    fill: "#2f80a8"
+  });
 
   addText(svg, "Same angle of sunlight", 380, 30, {
     size: 17,
@@ -1428,30 +1460,44 @@ function parallelTriangleDiagram(data) {
   const svg = createSvg(
     740,
     430,
-    "A triangle containing a segment parallel to one side"
+    "A triangle with a segment parallel to its base and proportional side segments"
   );
 
-  const A = [370, 45];
-  const B = [85, 360];
-  const C = [655, 360];
+  const A = { x: 370, y: 45 };
+  const B = { x: 85, y: 360 };
+  const C = { x: 655, y: 360 };
 
-  const D = [215, 215];
-  const E = [525, 215];
+  const leftFraction = data.ad / (data.ad + data.db);
+  const rightFraction = data.ae / (data.ae + data.ec);
 
-  addPolygon(svg, [A, B, C], {
-    fill: "#0f2d44",
-    opacity: "0.07",
-    stroke: "#0f2d44",
-    width: 4
-  });
+  const D = {
+    x: A.x + leftFraction * (B.x - A.x),
+    y: A.y + leftFraction * (B.y - A.y)
+  };
 
-  addLine(svg, D[0], D[1], E[0], E[1], {
+  const E = {
+    x: A.x + rightFraction * (C.x - A.x),
+    y: A.y + rightFraction * (C.y - A.y)
+  };
+
+  addPolygon(
+    svg,
+    [[A.x, A.y], [B.x, B.y], [C.x, C.y]],
+    {
+      fill: "#0f2d44",
+      opacity: "0.07",
+      stroke: "#0f2d44",
+      width: 4
+    }
+  );
+
+  addLine(svg, D.x, D.y, E.x, E.y, {
     stroke: "#2f80a8",
     width: 5
   });
 
-  addParallelMarks(svg, B[0], B[1], C[0], C[1]);
-  addParallelMarks(svg, D[0], D[1], E[0], E[1]);
+  addParallelMarks(svg, B.x, B.y, C.x, C.y);
+  addParallelMarks(svg, D.x, D.y, E.x, E.y, "#2f80a8");
 
   addText(svg, "A", 370, 30, {
     size: 18,
@@ -1468,39 +1514,39 @@ function parallelTriangleDiagram(data) {
     weight: "bold"
   });
 
-  addText(svg, "D", 198, 210, {
+  addText(svg, "D", D.x - 18, D.y + 3, {
     size: 18,
     weight: "bold",
     fill: "#2f80a8"
   });
 
-  addText(svg, "E", 542, 210, {
+  addText(svg, "E", E.x + 18, E.y + 3, {
     size: 18,
     weight: "bold",
     fill: "#2f80a8"
   });
 
-  addText(svg, `AD = ${data.ad}`, 270, 115, {
+  addText(svg, `AD = ${data.ad}`, 275, 120, {
     size: 17,
     weight: "bold"
   });
 
-  addText(svg, `DB = ${data.db}`, 145, 285, {
+  addText(svg, `DB = ${data.db}`, 145, 290, {
     size: 17,
     weight: "bold"
   });
 
-  addText(svg, `AE = ${data.ae}`, 475, 115, {
+  addText(svg, `AE = ${data.ae}`, 475, 120, {
     size: 17,
     weight: "bold"
   });
 
-  addText(svg, "EC = x", 590, 285, {
+  addText(svg, "EC = x", 590, 290, {
     size: 17,
     weight: "bold"
   });
 
-  addText(svg, "DE ∥ BC", 370, 405, {
+  addText(svg, "DE ∥ BC", 370, 410, {
     size: 18,
     weight: "bold",
     fill: "#2f80a8"
@@ -1513,7 +1559,7 @@ function altitudeTriangleDiagram(data) {
   const svg = createSvg(
     760,
     430,
-    "A right triangle with an altitude drawn to the hypotenuse"
+    "A right triangle with an altitude drawn to its hypotenuse"
   );
 
   const A = [100, 345];
@@ -1533,7 +1579,7 @@ function altitudeTriangleDiagram(data) {
     width: 5
   });
 
-  addRightAngle(svg, D[0], D[1], 20, "up-right");
+  addRightAngle(svg, D[0], D[1], 20);
 
   addText(svg, "A", 82, 370, {
     size: 18,
@@ -1556,27 +1602,15 @@ function altitudeTriangleDiagram(data) {
     fill: "#2f80a8"
   });
 
-  addText(
-    svg,
-    `AD = ${data.leftSegment}`,
-    195,
-    330,
-    {
-      size: 17,
-      weight: "bold"
-    }
-  );
+  addText(svg, `AD = ${data.leftSegment}`, 195, 330, {
+    size: 17,
+    weight: "bold"
+  });
 
-  addText(
-    svg,
-    `DB = ${data.rightSegment}`,
-    480,
-    330,
-    {
-      size: 17,
-      weight: "bold"
-    }
-  );
+  addText(svg, `DB = ${data.rightSegment}`, 480, 330, {
+    size: 17,
+    weight: "bold"
+  });
 
   addText(svg, "CD = h", 340, 210, {
     size: 18,
@@ -1584,16 +1618,10 @@ function altitudeTriangleDiagram(data) {
     fill: "#2f80a8"
   });
 
-  addText(
-    svg,
-    "CD is perpendicular to AB",
-    380,
-    410,
-    {
-      size: 17,
-      weight: "bold"
-    }
-  );
+  addText(svg, "CD ⟂ AB", 380, 410, {
+    size: 17,
+    weight: "bold"
+  });
 
   return svg;
 }
@@ -1602,7 +1630,7 @@ function proofDiagram(data) {
   const svg = createSvg(
     740,
     410,
-    "Two intersecting lines forming triangles used in a similarity proof"
+    "Two triangles formed by intersecting lines with angle and length information"
   );
 
   const A = [90, 80];
@@ -1681,7 +1709,7 @@ function proofDiagram(data) {
 
   addText(
     svg,
-    "∠A ≅ ∠C and vertical angles at X are congruent",
+    "∠A ≅ ∠C; vertical angles at X are congruent",
     370,
     390,
     {
@@ -1694,7 +1722,7 @@ function proofDiagram(data) {
 }
 
 function buildWeekOneProblems() {
-  const coordinateCases = [
+  const coordinateData = randomChoice([
     {
       points: [
         { x: 1, y: 1 },
@@ -1722,19 +1750,42 @@ function buildWeekOneProblems() {
       labels: ["J", "K", "L"],
       scaleFactor: 0.5
     }
-  ];
+  ]);
 
-  const coordinateData = randomChoice(coordinateCases);
+  const imageCoordinates = coordinateData.points.map((point) => ({
+    x: point.x * coordinateData.scaleFactor,
+    y: point.y * coordinateData.scaleFactor
+  }));
 
-  const scaleFactor = randomChoice([2, 3, 0.5]);
+  const coordinateFields = [];
 
-  const preimagePerimeter = randomChoice([18, 24, 30]);
-  const preimageArea = randomChoice([20, 24, 32]);
+  coordinateData.labels.forEach((label, index) => {
+    coordinateFields.push({
+      id: `coordinate-${index}-x`,
+      label: `${label}' x-coordinate`,
+      type: "number",
+      step: "any"
+    });
+
+    coordinateFields.push({
+      id: `coordinate-${index}-y`,
+      label: `${label}' y-coordinate`,
+      type: "number",
+      step: "any"
+    });
+  });
+
+  coordinateFields.push({
+    id: "dilation-type",
+    label: "Transformation type",
+    type: "select",
+    options: ["Enlargement", "Reduction"]
+  });
 
   const relationshipData = {
-    scaleFactor,
-    preimagePerimeter,
-    preimageArea
+    scaleFactor: randomChoice([2, 3, 0.5]),
+    preimagePerimeter: randomChoice([18, 24, 30]),
+    preimageArea: randomChoice([20, 24, 32])
   };
 
   return [
@@ -1742,15 +1793,47 @@ function buildWeekOneProblems() {
       week: "Week 1 — Dilations and Similarity Foundations",
       title: "Coordinate Dilation",
       prompt:
-        `Dilate the triangle about the origin using scale factor k = ${coordinateData.scaleFactor}. State the coordinates of every image vertex. Then explain whether the transformation is an enlargement or a reduction.`,
-      diagram: () => coordinateGridDiagram(coordinateData)
+        `The navy triangle is the preimage. The blue triangle is its image after a dilation centered at the origin with scale factor k = ${coordinateData.scaleFactor}. Enter each image coordinate and classify the dilation.`,
+      diagram: () => coordinateGridDiagram(coordinateData),
+      fields: coordinateFields,
+      gridClass: "four",
+      metadata: {
+        expectedImageCoordinates: imageCoordinates
+      }
     },
     {
       week: "Week 1 — Dilations and Similarity Foundations",
       title: "Scale Factor, Perimeter, and Area",
       prompt:
-        `Figure B is the image of Figure A under a dilation with scale factor ${scaleFactor}. Determine the perimeter and area of Figure B. Explain why the perimeter and area do not use the same multiplier.`,
-      diagram: () => scaleRelationshipDiagram(relationshipData)
+        `Figure B is the image of Figure A under a dilation with scale factor ${relationshipData.scaleFactor}. Determine the perimeter and area of Figure B. Also identify the multiplier used for perimeter and the multiplier used for area.`,
+      diagram: () => scaleRelationshipDiagram(relationshipData),
+      fields: [
+        {
+          id: "image-perimeter",
+          label: "Perimeter of Figure B",
+          type: "number",
+          step: "any"
+        },
+        {
+          id: "image-area",
+          label: "Area of Figure B",
+          type: "number",
+          step: "any"
+        },
+        {
+          id: "perimeter-multiplier",
+          label: "Perimeter multiplier",
+          type: "number",
+          step: "any"
+        },
+        {
+          id: "area-multiplier",
+          label: "Area multiplier",
+          type: "number",
+          step: "any"
+        }
+      ],
+      gridClass: "four"
     }
   ];
 }
@@ -1767,10 +1850,11 @@ function buildWeekTwoProblems() {
     ac,
     bc,
     de: ab * scale,
-    df: ac * scale
+    df: ac * scale,
+    ef: bc * scale
   };
 
-  const shadowCases = [
+  const shadowData = randomChoice([
     {
       personHeight: 5,
       personShadow: 4,
@@ -1786,49 +1870,97 @@ function buildWeekTwoProblems() {
       personShadow: 5,
       objectShadow: 15
     }
-  ];
-
-  const shadowData = randomChoice(shadowCases);
+  ]);
 
   return [
     {
       week: "Week 2 — Applying Similarity",
       title: "Correspondence and Proportional Reasoning",
       prompt:
-        `The diagram states △ABC ∼ △DEF. Identify the corresponding vertices, write a valid proportion, and solve for x. Explain how the order of the similarity statement determines your proportion.`,
-      diagram: () => correspondingTrianglesDiagram(correspondenceData)
+        "Use the given similarity statement to identify corresponding parts, write a valid proportion, and solve for x.",
+      diagram: () => correspondingTrianglesDiagram(correspondenceData),
+      fields: [
+        {
+          id: "similarity-statement",
+          label: "Similarity statement",
+          type: "text",
+          placeholder: "Example: △ABC ∼ △DEF"
+        },
+        {
+          id: "corresponding-side",
+          label: "Side corresponding to BC",
+          type: "text",
+          placeholder: "Enter a side name"
+        },
+        {
+          id: "proportion",
+          label: "Valid proportion",
+          type: "text",
+          placeholder: "Example: AB/DE = BC/EF"
+        },
+        {
+          id: "missing-x",
+          label: "Value of x",
+          type: "number",
+          step: "any"
+        }
+      ],
+      gridClass: "four"
     },
     {
       week: "Week 2 — Applying Similarity",
       title: "Indirect Measurement",
       prompt:
-        `A person and a taller object cast shadows at the same time. Determine the height of the taller object. Explain why the triangles are similar and show the proportion you used.`,
-      diagram: () => shadowDiagram(shadowData)
+        "A person and a taller object cast shadows at the same time. Identify the similarity criterion, write a valid proportion, and determine the taller object's height.",
+      diagram: () => shadowDiagram(shadowData),
+      fields: [
+        {
+          id: "similarity-criterion",
+          label: "Similarity criterion",
+          type: "select",
+          options: ["AA", "SAS", "SSS"]
+        },
+        {
+          id: "shadow-proportion",
+          label: "Proportion used",
+          type: "text",
+          placeholder: "Write a proportion using heights and shadows"
+        },
+        {
+          id: "object-height",
+          label: "Object height",
+          type: "number",
+          step: "any"
+        },
+        {
+          id: "height-units",
+          label: "Units",
+          type: "select",
+          options: ["feet", "inches", "meters"]
+        }
+      ],
+      gridClass: "four"
     }
   ];
 }
 
 function buildWeekThreeProblems() {
-  const ad = randomChoice([3, 4, 5, 6]);
-  const db = randomChoice([6, 8, 10, 12]);
-  const multiplier = randomChoice([2, 3]);
+  const ratioNumerator = randomChoice([2, 3]);
+
+  const ad = randomChoice([4, 6]);
+  const db = ad * ratioNumerator;
+
+  const ae = randomChoice([6, 8]);
+  const ec = ae * ratioNumerator;
 
   const proportionalityData = {
     ad,
     db,
-    ae: ad * multiplier
+    ae,
+    ec
   };
 
-  const proofScale = randomChoice([2, 3]);
-
-  const proofData = {
-    ax: randomChoice([3, 4, 5]),
-    xb: randomChoice([6, 8, 10])
-  };
-
-  proofData.cx = proofData.ax * proofScale;
-
-  const altitudePairs = [
+  const altitudeData = randomChoice([
     {
       leftSegment: 4,
       rightSegment: 9
@@ -1841,24 +1973,81 @@ function buildWeekThreeProblems() {
       leftSegment: 5,
       rightSegment: 20
     }
-  ];
+  ]);
 
-  const altitudeData = randomChoice(altitudePairs);
+  const proofScale = randomChoice([2, 3]);
+  const proofAx = randomChoice([3, 4, 5]);
+  const proofXb = randomChoice([6, 8, 10]);
+
+  const proofData = {
+    ax: proofAx,
+    xb: proofXb,
+    cx: proofAx * proofScale,
+    xd: proofXb * proofScale
+  };
 
   const advancedProblem = randomChoice([
     {
       week: "Week 3 — Similarity Theorems and Proofs",
       title: "Right-Triangle Altitude Similarity",
       prompt:
-        `The altitude from the right-angle vertex divides the hypotenuse into the labeled segments. Find the altitude h. Identify the geometric-mean relationship you used and explain how it follows from similar triangles.`,
-      diagram: () => altitudeTriangleDiagram(altitudeData)
+        "The altitude from the right-angle vertex divides the hypotenuse into two segments. Write the geometric-mean equation and find h.",
+      diagram: () => altitudeTriangleDiagram(altitudeData),
+      fields: [
+        {
+          id: "geometric-mean-equation",
+          label: "Geometric-mean equation",
+          type: "text",
+          placeholder: "Example: h² = (segment)(segment)"
+        },
+        {
+          id: "altitude-value",
+          label: "Value of h",
+          type: "number",
+          step: "any"
+        },
+        {
+          id: "altitude-form",
+          label: "Answer form",
+          type: "select",
+          options: ["Whole number", "Decimal", "Radical"]
+        }
+      ],
+      gridClass: "three"
     },
     {
       week: "Week 3 — Similarity Theorems and Proofs",
       title: "Similarity Proof and Proportional Segments",
       prompt:
-        `Use the given angle information to justify that the two triangles are similar. Name the similarity criterion, write the resulting proportion, and solve for x.`,
-      diagram: () => proofDiagram(proofData)
+        "Use the marked angle relationships to justify triangle similarity. Then write a corresponding proportion and solve for x.",
+      diagram: () => proofDiagram(proofData),
+      fields: [
+        {
+          id: "proof-criterion",
+          label: "Similarity criterion",
+          type: "select",
+          options: ["AA", "SAS", "SSS"]
+        },
+        {
+          id: "proof-statement",
+          label: "Similarity statement",
+          type: "text",
+          placeholder: "Write the triangles in corresponding order"
+        },
+        {
+          id: "proof-proportion",
+          label: "Corresponding proportion",
+          type: "text",
+          placeholder: "Write a valid proportion"
+        },
+        {
+          id: "proof-x",
+          label: "Value of x",
+          type: "number",
+          step: "any"
+        }
+      ],
+      gridClass: "four"
     }
   ]);
 
@@ -1867,8 +2056,33 @@ function buildWeekThreeProblems() {
       week: "Week 3 — Similarity Theorems and Proofs",
       title: "Triangle Proportionality Theorem",
       prompt:
-        `Because DE is parallel to BC, the sides of the triangle are divided proportionally. Write a valid proportion and solve for x. Explain which theorem supports your equation.`,
-      diagram: () => parallelTriangleDiagram(proportionalityData)
+        "Point D lies on AB, point E lies on AC, and DE is parallel to BC. Identify the theorem, write a valid proportion, and solve for EC.",
+      diagram: () => parallelTriangleDiagram(proportionalityData),
+      fields: [
+        {
+          id: "proportionality-theorem",
+          label: "Theorem used",
+          type: "select",
+          options: [
+            "Triangle Proportionality Theorem",
+            "Pythagorean Theorem",
+            "Angle Bisector Theorem"
+          ]
+        },
+        {
+          id: "proportionality-equation",
+          label: "Proportion used",
+          type: "text",
+          placeholder: "Example: AD/DB = AE/EC"
+        },
+        {
+          id: "ec-value",
+          label: "Value of EC",
+          type: "number",
+          step: "any"
+        }
+      ],
+      gridClass: "three"
     },
     advancedProblem
   ];
@@ -1910,7 +2124,6 @@ function generateAssessment() {
   if (!validNamePart(first) || !validNamePart(last)) {
     loginError.textContent =
       "Enter a valid first and last name before generating the assessment.";
-
     return;
   }
 
@@ -1925,8 +2138,8 @@ function generateAssessment() {
   currentProblemIndex = 0;
   responses = [];
 
-  document.getElementById("assessment-code")
-    .textContent = assessmentCode;
+  document.getElementById("assessment-code").textContent =
+    assessmentCode;
 
   loginSection.classList.add("hidden");
   codeSection.classList.remove("hidden");
@@ -1962,8 +2175,8 @@ function renderProblem() {
   diagramContainer.innerHTML = "";
   diagramContainer.appendChild(problem.diagram());
 
-  finalAnswerInput.value = "";
-  reasoningInput.value = "";
+  renderFields(problem);
+
   responseError.textContent = "";
 
   document.getElementById("next-button").textContent =
@@ -1974,18 +2187,23 @@ function renderProblem() {
   updateProgress();
   clearWhiteboard(false);
 
-  finalAnswerInput.focus();
+  const firstField =
+    responseContainer.querySelector("input, select");
+
+  if (firstField) {
+    firstField.focus();
+  }
 }
 
 function updateProgress() {
   const currentNumber = currentProblemIndex + 1;
   const percent = (currentNumber / 6) * 100;
 
-  document.getElementById("progress-fill")
-    .style.width = `${percent}%`;
+  document.getElementById("progress-fill").style.width =
+    `${percent}%`;
 
-  document.getElementById("progress-label")
-    .textContent = `Problem ${currentNumber} of 6`;
+  document.getElementById("progress-label").textContent =
+    `Problem ${currentNumber} of 6`;
 
   document.getElementById("progress-track")
     .setAttribute("aria-valuenow", String(currentNumber));
@@ -2007,23 +2225,41 @@ function updateProgress() {
   }
 }
 
+function collectResponses() {
+  const fields = [
+    ...responseContainer.querySelectorAll("input, select")
+  ];
+
+  const values = [];
+  let firstMissing = null;
+
+  fields.forEach((field) => {
+    const value = field.value.trim();
+
+    if (!value && !firstMissing) {
+      firstMissing = field;
+    }
+
+    values.push({
+      label: field.dataset.label,
+      value
+    });
+  });
+
+  return {
+    values,
+    firstMissing
+  };
+}
+
 function submitResponse() {
-  const answer = finalAnswerInput.value.trim();
-  const reasoning = reasoningInput.value.trim();
+  const collected = collectResponses();
 
-  if (answer.length < 1) {
+  if (collected.firstMissing) {
     responseError.textContent =
-      "Enter your final answer before continuing.";
+      "Complete every answer field before continuing.";
 
-    finalAnswerInput.focus();
-    return;
-  }
-
-  if (reasoning.length < 20) {
-    responseError.textContent =
-      "Add a brief mathematical explanation of at least 20 characters.";
-
-    reasoningInput.focus();
+    collected.firstMissing.focus();
     return;
   }
 
@@ -2039,8 +2275,7 @@ function submitResponse() {
     problemNumber: currentProblemIndex + 1,
     title: problems[currentProblemIndex].title,
     week: problems[currentProblemIndex].week,
-    answer,
-    reasoning
+    answers: collected.values
   });
 
   currentProblemIndex += 1;
@@ -2065,23 +2300,19 @@ function showCompletion() {
 
   const now = new Date();
 
-  document.getElementById("completion-name")
-    .textContent = student.fullName;
+  document.getElementById("completion-name").textContent =
+    student.fullName;
 
-  document.getElementById("completion-code")
-    .textContent = assessmentCode;
+  document.getElementById("completion-code").textContent =
+    assessmentCode;
 
-  document.getElementById("completion-date")
-    .textContent = now.toLocaleString(
-      "en-US",
-      {
-        dateStyle: "long",
-        timeStyle: "short"
-      }
-    );
+  document.getElementById("completion-date").textContent =
+    now.toLocaleString("en-US", {
+      dateStyle: "long",
+      timeStyle: "short"
+    });
 
   const summaryBody = document.getElementById("summary-body");
-
   summaryBody.innerHTML = "";
 
   responses.forEach((response) => {
@@ -2089,10 +2320,23 @@ function showCompletion() {
     const numberCell = document.createElement("td");
     const topicCell = document.createElement("td");
     const answerCell = document.createElement("td");
+    const list = document.createElement("ul");
 
     numberCell.textContent = response.problemNumber;
     topicCell.textContent = response.title;
-    answerCell.textContent = response.answer;
+    list.className = "summary-list";
+
+    response.answers.forEach((answer) => {
+      const item = document.createElement("li");
+      const label = document.createElement("strong");
+
+      label.textContent = `${answer.label}: `;
+      item.appendChild(label);
+      item.appendChild(document.createTextNode(answer.value));
+      list.appendChild(item);
+    });
+
+    answerCell.appendChild(list);
 
     row.appendChild(numberCell);
     row.appendChild(topicCell);
